@@ -111,4 +111,15 @@ public class Tablero {
 		return grilla[fila][col].getValor();
 	}
 	
+	
+	public int[][] getGrillaSolucion() {
+	    int[][] solucion = new int[9][9];
+	    for (int f = 0; f < 9; f++) {
+	        for (int c = 0; c < 9; c++) {
+	            solucion[f][c] = this.grilla[f][c].getValor();
+	        }
+	    }
+	    return solucion;
+	}
+	
 }

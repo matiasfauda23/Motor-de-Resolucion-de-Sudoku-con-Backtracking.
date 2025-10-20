@@ -108,4 +108,17 @@ public class PantallaPrincipal extends JFrame {
 		}
 	}
 
+	public JButton getBotonResolver() {
+        return botonResolver;
+    }
+
+    public JButton getBotonGenerar() {
+        return botonGenerar;
+    }
+
+    public JButton getBotonLimpiar() {
+        return botonLimpiar;
+    }
+    
+
 }
