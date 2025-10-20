@@ -1,10 +1,12 @@
-package logica;
+package Test;
 
 import static org.junit.Assert.*;
 
 import java.util.Set;
 
 import org.junit.Test;
+
+import logica.Celda;
 
 public class CeldaTest {
 	
