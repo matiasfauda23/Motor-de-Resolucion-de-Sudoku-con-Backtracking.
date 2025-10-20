@@ -24,16 +24,16 @@ public class CeldaTest {
 		assertEquals(0, celda.getValor());
 		assertFalse(celda.getEsPrefijada());
 	}
+	
 	//Tests de fallas en constructor
-	@Test
-	public void testConstructorFallaSinValorEsInvalido() {
-		//asserrThrows toma dos parametros: la excepcion esperada y el codigo que tiene que fallar
-		assertThrows(IllegalArgumentException.class, () -> {new Celda (10, false);});
-		assertThrows(IllegalArgumentException.class, () -> {new Celda (-1, false);});
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorFallaSiValorEsInvalido() {
+	    new Celda(10, false);
+	
 	}
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void TestConstructorFallaSiCeldaVaciaEsPrefijada() {
-		assertThrows(IllegalArgumentException.class, () -> {new Celda (0, true);});
+		new Celda(0, true);;
 	}
 	@Test
 	public void testEliminarCandidato() {

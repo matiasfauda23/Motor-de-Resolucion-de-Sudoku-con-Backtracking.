@@ -76,13 +76,13 @@ public class Tablero {
 
 	//Metodo resolver con backtracking
 	public boolean resolver() {
-		//1)Buscamos celda vacia
+		//1)Buscamos/elegimos un casillero vacio
 		int[] posicionVacia = encontrarProximaCeldaVacia();
 		//2)Si no hay celdas vacias, el tablero esta resuelto
 		if(posicionVacia == null) {
 			return true;
 		}
-		
+		//Obtenemos fila y columna de la celda vacia
 		int fila = posicionVacia[0];
 		int col = posicionVacia[1];
 		
@@ -95,14 +95,20 @@ public class Tablero {
 				if(resolver()) {
 					return true; //Si se pudo resolver, retornamos true
 				}
-				//6)Si no se pudo resolver, significa que el num llevo a un callejon sin salida
-				//Entonces probamos con el siguiente numero
+				//6)Si no se pudo resolver, hacemos backtracking
 				grilla[fila][col].setValor(0);
 			}
 		}
 		//7)Si ningun numero del 1 al 9 funciono, retornamos false para backtracking
 		return false;
 		
+	}
+	
+	public int getValor(int fila, int col) {
+		if (fila < 0 || fila > 8 || col < 0 || col > 8) {
+			throw new IllegalArgumentException("Fila y columna deben estar entre 0 y 8.");
+		}
+		return grilla[fila][col].getValor();
 	}
 	
 }
