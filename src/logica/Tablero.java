@@ -58,5 +58,51 @@ public class Tablero {
 		       esValidoEnColumna(col, numero) &&
 		       esValidoEnCaja(fila, col, numero);
 	}
+	
+	//Para el metodo backtracking necesito 2 metodos. Un metodo 
+	//que encuentre la proxima celda vacia y el metodo resolver() recursivo
+	
+	public int[] encontrarProximaCeldaVacia() {
+		for(int fila = 0 ; fila < 9 ; fila++) {
+			for(int col = 0 ; col < 9 ; col++) {
+				if(grilla[fila][col].getValor() == 0) {
+					//Retorno la posicion de la celda vacia
+					return new int[]{fila, col};
+				}
+			}
+		}
+		return null; //No hay celdas vacias
+	}
 
+	//Metodo resolver con backtracking
+	public boolean resolver() {
+		//1)Buscamos celda vacia
+		int[] posicionVacia = encontrarProximaCeldaVacia();
+		//2)Si no hay celdas vacias, el tablero esta resuelto
+		if(posicionVacia == null) {
+			return true;
+		}
+		
+		int fila = posicionVacia[0];
+		int col = posicionVacia[1];
+		
+		//3)Intentamos numeros del 1 al 9
+		for(int num = 1 ; num <= 9 ; num++) {
+			if(esMovimientoValido(fila, col, num)) {
+				//4)Si el numero es valido, lo ponemos en la celda
+				grilla[fila][col].setValor(num);
+				//5)Llamada recursiva para que continue resolviendo
+				if(resolver()) {
+					return true; //Si se pudo resolver, retornamos true
+				}
+				//6)Si no se pudo resolver, significa que el num llevo a un callejon sin salida
+				//Entonces probamos con el siguiente numero
+				grilla[fila][col].setValor(0);
+			}
+		}
+		//7)Si ningun numero del 1 al 9 funciono, retornamos false para backtracking
+		return false;
+		
+	}
+	
 }
