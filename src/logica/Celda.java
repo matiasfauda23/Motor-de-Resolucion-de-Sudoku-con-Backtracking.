@@ -10,12 +10,16 @@ public class Celda {
 	private HashSet<Integer> candidatos; 
 
 	public Celda(int valor, boolean esPrefijada) {
-		if(valor < 1 || valor > 9) {
-			throw new IllegalArgumentException("El valor de la celda debe estar entre 1 y 9");
-		}
-		this.valor = valor;
-		this.esPrefijada = esPrefijada;
-		this.candidatos = new HashSet<>(Arrays.asList(1,2,3,4,5,6,7,8,9));
+	    if(valor < 0 || valor > 9) { // Permitimos 0
+	        throw new IllegalArgumentException("El valor de la celda debe estar entre 0 y 9");
+	    }
+	    if(valor == 0 && esPrefijada) { 
+	        throw new IllegalArgumentException("Una celda vacia (valor 0) no puede ser prefijada");
+	    }
+	    
+	    this.valor = valor;
+	    this.esPrefijada = esPrefijada;
+	    this.candidatos = new HashSet<>(Arrays.asList(1,2,3,4,5,6,7,8,9));
 	}
 	
 	public void eliminarCandidato(int numero) {
@@ -30,20 +34,18 @@ public class Celda {
 	    if (!esPrefijada) {
 	        valor = 0;
 	    }
-	    // Restaurar candidatos a {1, 2, 3, 4, 5, 6, 7, 8, 9}
-	    candidatos = new HashSet<>();
-	    for (int i = 1; i <= 9; i++) {
-	        candidatos.add(i);
+	    candidatos = new HashSet<>(Arrays.asList(1,2,3,4,5,6,7,8,9));
 	    }
-	}
+	
 	
     ///setters y getters
 	public Set<Integer> getCandidatos() {
 		return new HashSet<>(candidatos);
 	}
 	
+	//Copio los candidatos para evitar aliasing
 	public void setCandidatos(Set<Integer> candidatos) {
-		this.candidatos = (HashSet<Integer>) candidatos;
+		this.candidatos = new HashSet<>(candidatos);
 	}
 	
 	public int getValor() {
