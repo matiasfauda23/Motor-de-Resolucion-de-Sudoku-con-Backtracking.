@@ -59,24 +59,8 @@ public class PantallaPrincipal extends JFrame {
 		contentPane.add(panelGrilla, java.awt.BorderLayout.CENTER);
 		panelGrilla.setLayout(new GridLayout(9, 9, 2, 2)); // 9x9
 		
-		// Inicializamos la matriz de campos de texto
-		grillaCampos = new JTextField[9][9];
-		
-		// Loop para agregar los campos de texto a la grilla
-		for (int f = 0; f < 9; f++) {
-			for (int c = 0; c < 9; c++) {
-				grillaCampos[f][c] = new JTextField();
-				
-				// Estilos para que se vea mejor
-				grillaCampos[f][c].setHorizontalAlignment(SwingConstants.CENTER);
-				grillaCampos[f][c].setFont(new Font("Arial", Font.BOLD, 20));
-				
-				// Agregamos el campo recién creado al panel de la grilla
-				panelGrilla.add(grillaCampos[f][c]);
-				// Limitamos a un caracter por campo
-				grillaCampos[f][c].setColumns(1); 
-			}
-		}
+		// Inicializamos los campos de texto y los agregamos a la grilla
+		inicializarCamposDeTexto();
 
 		
 		//Panel de botones (Abajo)
@@ -97,6 +81,31 @@ public class PantallaPrincipal extends JFrame {
 		
 		// Centra la ventana en la pantalla
 		this.setLocationRelativeTo(null); 
+	}
+	
+
+	 // Metodo auxiliar privado para crear los campos de texto y agregarlos a la grilla
+	 
+	private void inicializarCamposDeTexto() {
+		// Inicializamos la matriz de campos de texto
+		grillaCampos = new JTextField[9][9];
+		
+		// Loop para agregar los campos de texto a la grilla
+		for (int f = 0; f < 9; f++) {
+			for (int c = 0; c < 9; c++) {
+				grillaCampos[f][c] = new JTextField();
+				
+				// Estilos para que se vea mejor
+				grillaCampos[f][c].setHorizontalAlignment(SwingConstants.CENTER);
+				grillaCampos[f][c].setFont(new Font("Arial", Font.BOLD, 20));
+				
+				// Agregamos el campo recién creado al panel de la grilla
+				panelGrilla.add(grillaCampos[f][c]);
+				
+				// Limitamos a un caracter por campo
+				grillaCampos[f][c].setColumns(1);
+			}
+		}
 	}
 
 }
