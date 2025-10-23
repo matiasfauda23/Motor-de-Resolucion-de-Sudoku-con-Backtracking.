@@ -122,4 +122,8 @@ public class Tablero {
 	    return solucion;
 	}
 	
+	public Celda[][] getGrilla() {
+		return grilla;
+	}
+	
 }
