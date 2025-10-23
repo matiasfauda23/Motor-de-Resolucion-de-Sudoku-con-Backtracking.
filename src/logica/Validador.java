@@ -1,17 +1,16 @@
 package logica;
 
-public class ValidadorSodoku {
+public class Validador {
 	private Tablero tablero;
-	private boolean estado; // define si el sodoku tiene o no solucion
 	
-	public ValidadorSodoku(Tablero tablero) {
+	public Validador(Tablero tablero) {
 		this.tablero = tablero;
-		this.estado = estado;
+		
 	}
 	
 	public boolean esValidoEnFila(int fila, int numero) {
 		for(int col = 0 ; col < 9 ; col++) {
-			if(tablero.getGrilla()[fila][col].getValor() == numero) {
+			if(tablero.getValor(fila, col) == numero) {
 				return false;
 			}
 		}
@@ -20,7 +19,7 @@ public class ValidadorSodoku {
 
 	public boolean esValidoEnColumna(int columna,int numero) {
 		for(int fila = 0 ;fila < 9 ; fila++) {
-			if(tablero.getGrilla()[fila][columna].getValor() == numero) {
+			if(tablero.getValor(fila, columna) == numero) {
 				return false;
 			}
 		}
@@ -34,7 +33,7 @@ public class ValidadorSodoku {
 		//Recorro solo la caja
 		for(int f = filaInicio ; f < filaInicio + 3 ; f++) {
 			for(int c = colInicio ; c < colInicio + 3 ; c++) {
-				if(tablero.getGrilla()[f][c].getValor() == numero) {
+				if(tablero.getValor(filaInicio, colInicio) == numero) {
 					return false;
 				}
 			}

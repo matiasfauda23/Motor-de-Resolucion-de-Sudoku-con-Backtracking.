@@ -3,6 +3,7 @@ package logica;
 public class Tablero {
 	
 	private Celda[][] grilla;
+	private Validador validador = new Validador(this);
 	
 	// Constructor que recibe matriz
 	public Tablero(int [][] numeros) {
@@ -19,44 +20,6 @@ public class Tablero {
 				this.grilla[fila][col] = new Celda (valor, esPrefijada);
 			}
 		}
-	}
-	private boolean esValidoEnFila(int fila, int numero) {
-		for(int col = 0 ; col < 9 ; col++) {
-			if(grilla[fila][col].getValor() == numero) {
-				return false;
-			}
-		}
-		return true;
-	}
-	private boolean esValidoEnColumna(int columna, int numero) {
-		for(int fila = 0 ; fila < 9 ; fila++) {
-			if(grilla[fila][columna].getValor() == numero) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	private boolean esValidoEnCaja(int fila, int col, int numero) {
-		//Encuentro la esquina superior izquierda de la caja
-		int filaInicio = (fila / 3) * 3;
-		int colInicio = (col / 3) * 3;
-		//Recorro solo la caja
-		for(int f = filaInicio ; f < filaInicio + 3 ; f++) {
-			for(int c = colInicio ; c < colInicio + 3 ; c++) {
-				if(grilla[f][c].getValor() == numero) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-	
-	//Verifico si un movimiento es valido
-	public boolean esMovimientoValido(int fila, int col, int numero) {
-		return esValidoEnFila(fila, numero) &&
-		       esValidoEnColumna(col, numero) &&
-		       esValidoEnCaja(fila, col, numero);
 	}
 	
 	//Para el metodo backtracking necesito 2 metodos. Un metodo 
@@ -88,7 +51,7 @@ public class Tablero {
 		
 		//3)Intentamos numeros del 1 al 9
 		for(int num = 1 ; num <= 9 ; num++) {
-			if(esMovimientoValido(fila, col, num)) {
+			if(validador.esMovimientoValido(fila, col, num)) {
 				//4)Si el numero es valido, lo ponemos en la celda
 				grilla[fila][col].setValor(num);
 				//5)Llamada recursiva para que continue resolviendo
@@ -124,6 +87,6 @@ public class Tablero {
 	
 	public Celda[][] getGrilla() {
 		return grilla;
-	}
 	
+	}	
 }
