@@ -1,5 +1,4 @@
 package logica;
-
 import interfaz.PantallaPrincipal;
 
 public class Controlador{
@@ -16,7 +15,7 @@ public class Controlador{
 	private void conectarBotones() {
 		_vista.getBotonResolver().addActionListener(e -> resolverSudoku());
 		_vista.getBotonLimpiar().addActionListener(e -> limpiarGrilla());
-		
+		_vista.getBotonGenerar().addActionListener(e -> generarSudoku());
 	}
 
 	private void resolverSudoku() {
@@ -38,6 +37,17 @@ public class Controlador{
         }
     }
 	
+	private void generarSudoku() {
+		
+        GeneradorSudoku generador = new GeneradorSudoku();
+        
+        int celdasPrefijadas = 30; 
+        int[][] puzzle = generador.generar(celdasPrefijadas);
+        
+        _vista.limpiarTablero();
+        _vista.setNuevoPuzzle(puzzle);
+    }
+
 	private void limpiarGrilla() {
         _vista.limpiarTablero();
     }

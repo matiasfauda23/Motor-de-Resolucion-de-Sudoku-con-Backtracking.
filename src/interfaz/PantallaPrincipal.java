@@ -29,20 +29,6 @@ public class PantallaPrincipal extends JFrame {
 	private JButton botonGenerar;
 	private JButton botonLimpiar;
 
-
-/*	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PantallaPrincipal frame = new PantallaPrincipal();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
-
 	//Constructor ventana principal
 	public PantallaPrincipal() {
 		
@@ -113,10 +99,6 @@ public class PantallaPrincipal extends JFrame {
 			}
 		}
 	}
-
-
-
-
     
 	public JButton getBotonResolver() {
         return botonResolver;
@@ -200,5 +182,25 @@ public class PantallaPrincipal extends JFrame {
 		}
 });
 	 }
+	 public void setNuevoPuzzle(int[][] puzzle) {
+		    for (int f = 0; f < 9; f++) {
+		        for (int c = 0; c < 9; c++) {
+		            
+		            int valor = puzzle[f][c];
+		            
+		            if (valor == 0) {
+		                // Celda vacia para que el usuario complete
+		                grillaCampos[f][c].setText("");
+		                grillaCampos[f][c].setEditable(true);
+		                grillaCampos[f][c].setForeground(Color.BLACK); 
+		            } else {
+		          	  	// Celda prefijada
+		                grillaCampos[f][c].setText(String.valueOf(valor));
+		                grillaCampos[f][c].setEditable(false);
+		                grillaCampos[f][c].setForeground(Color.BLACK); 
+		            }
+		        }
+		    }
+		}
 
 }
