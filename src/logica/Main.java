@@ -1,10 +1,24 @@
 package logica;
 
+import java.awt.EventQueue;
+
+import interfaz.PantallaPrincipal;
+
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					PantallaPrincipal vista = new PantallaPrincipal();
+					new Controlador(vista); 
+					vista.setVisible(true);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 }

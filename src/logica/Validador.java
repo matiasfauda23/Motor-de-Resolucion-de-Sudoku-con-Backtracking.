@@ -1,16 +1,16 @@
 package logica;
 
 public class Validador {
-	private Tablero tablero;
+	private Tablero _tablero;
 	
 	public Validador(Tablero tablero) {
-		this.tablero = tablero;
+		this._tablero = tablero;
 		
 	}
 	
 	public boolean esValidoEnFila(int fila, int numero) {
 		for(int col = 0 ; col < 9 ; col++) {
-			if(tablero.getValor(fila, col) == numero) {
+			if(_tablero.getValor(fila, col) == numero) {
 				return false;
 			}
 		}
@@ -19,7 +19,7 @@ public class Validador {
 
 	public boolean esValidoEnColumna(int columna,int numero) {
 		for(int fila = 0 ;fila < 9 ; fila++) {
-			if(tablero.getValor(fila, columna) == numero) {
+			if(_tablero.getValor(fila, columna) == numero) {
 				return false;
 			}
 		}
@@ -33,7 +33,7 @@ public class Validador {
 		//Recorro solo la caja
 		for(int f = filaInicio ; f < filaInicio + 3 ; f++) {
 			for(int c = colInicio ; c < colInicio + 3 ; c++) {
-				if(tablero.getValor(filaInicio, colInicio) == numero) {
+				if(_tablero.getValor(filaInicio, colInicio) == numero) {
 					return false;
 				}
 			}
