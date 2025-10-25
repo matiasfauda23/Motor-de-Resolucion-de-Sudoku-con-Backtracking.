@@ -11,14 +11,7 @@ public class GeneradorSudoku {
 	
 public int[][] generar(int celdasPrefijadas) {
         
-        // Validacion de entradas
-        if (celdasPrefijadas < 9) {
-            celdasPrefijadas = 9;
-        }
-        if (celdasPrefijadas > 80) {
-            celdasPrefijadas = 80;
-        }
-
+        celdasPrefijadas = ajustarCantidadDePistas(celdasPrefijadas);
         // Obtenemos una solucion completa
         int[][] solucionCompleta = crearSolucionCompleta();
 
@@ -31,9 +24,19 @@ public int[][] generar(int celdasPrefijadas) {
         // Ponemos el resto de las pistas
         int pistasRestantes = celdasPrefijadas - 9;
         rellenarPistasRestantes(puzzle, solucionCompleta, pistasRestantes);
-
         return puzzle;
     }
+
+private int ajustarCantidadDePistas(int celdasPrefijadas) {
+	// Validacion de entradas
+	if (celdasPrefijadas < 9) {
+	    celdasPrefijadas = 9;
+	}
+	if (celdasPrefijadas > 80) {
+	    celdasPrefijadas = 80;
+	}
+	return celdasPrefijadas;
+}
 
     
     private int[][] crearSolucionCompleta() {
