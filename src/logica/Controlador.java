@@ -30,7 +30,7 @@ public class Controlador{
             } else {
                 _vista.mostrarError("El Sudoku ingresado no tiene solucion.");
             }
-            
+             
         } 
 		catch (Exception e) {
             _vista.mostrarError("Error en los datos ingresados: " + e.getMessage());
