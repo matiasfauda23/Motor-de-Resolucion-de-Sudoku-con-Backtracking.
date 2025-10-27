@@ -22,7 +22,8 @@ public class Solver {
         
         // 2) Si no hay celdas vacías, el tablero está resuelto
         if (posicionVacia == null) {
-            return true;
+        	guardarSolucion();
+        	return true; // cambiar a false si se quiere encontrar todas las soluciones 
         }
         
         // Obtenemos fila y columna de la celda vacía
@@ -33,17 +34,19 @@ public class Solver {
         for (int num = 1; num <= 9; num++) {
             if (validador.esMovimientoValido(fila, col, num)) {
                 // 4) Si el número es válido, lo ponemos en la celda
-                tablero.getGrilla()[fila][col].setValor(num);
+                tablero.getGrilla()[fila][col].setValor(num);         
                 
                 // 5) Llamada recursiva para que continúe resolviendo
-                if (resolver()) {
+                if (resolver()) {                	
                     return true; // Si se pudo resolver, retornamos true
+                
                 }
                 
                 // 6) Si no se pudo resolver, hacemos backtracking
                 tablero.getGrilla()[fila][col].setValor(0);
             }
         }
+        
         
         // 7) Si ningún número del 1 al 9 funcionó, retornamos false
         return false;
@@ -63,4 +66,101 @@ public class Solver {
         }
         return null; // No hay celdas vacías
     }
-}
+    
+    private void guardarSolucion() {
+		int[][] solucionActual = new int[9][9];
+		for (int fila = 0; fila < 9; fila++) {
+			for (int col = 0; col < 9; col++) {
+				solucionActual[fila][col] = tablero.getGrilla()[fila][col].getValor();
+			}
+		}
+		soluciones.add(solucionActual);
+	}
+    
+    public List<int[][]> getSoluciones() {
+		return soluciones;
+	}
+    
+
+
+/////////////////MAIN///////////////////////////////////////
+        
+        public static void main(String[] args) {
+            
+            // Sudoku de ejemplo 
+            int[][] sudokuInicial = {
+                {5, 3, 0, 0, 7, 0, 0, 0, 0},
+                {6, 0, 0, 1, 9, 5, 0, 0, 0},
+                {0, 9, 8, 0, 0, 0, 0, 6, 0},
+                {8, 0, 0, 0, 6, 0, 0, 0, 3},
+                {4, 0, 0, 8, 0, 3, 0, 0, 1},
+                {7, 0, 0, 0, 2, 0, 0, 0, 6},
+                {0, 6, 0, 0, 0, 0, 2, 8, 0},
+                {0, 0, 0, 4, 1, 9, 0, 0, 5},
+                {0, 0, 0, 0, 8, 0, 0, 7, 9}
+            };
+            
+            GeneradorSudoku generador = new GeneradorSudoku();
+            int[][] aleatorio = generador.generar(30);
+           
+            
+            System.out.println("=== SUDOKU INICIAL ===");
+            imprimirTablero(sudokuInicial);
+            
+            System.out.println("=== SUDOKU Aleatorio ===");
+            imprimirTablero(aleatorio);
+            
+            // Crear tablero y solver
+            Tablero tablero = new Tablero(sudokuInicial);
+            Solver solver = new Solver(tablero);
+            
+            Tablero tablero2 = new Tablero(aleatorio);
+            Solver solver2 = new Solver(tablero2);
+            
+            // Resolver
+            System.out.println("\n=== RESOLVIENDO... ===\n");
+            
+            if (solver.resolver()) {
+                System.out.println(" ¡Sudoku resuelto exitosamente!\n");
+                System.out.println("=== SOLUCIÓN ===");
+                int[][] solucion = tablero.getGrillaSolucion();
+                imprimirTablero(solucion);
+            } else {
+                System.out.println(" No se encontró solución para este sudoku");
+            }
+            
+            //resuelve aleatorio
+            if (solver2.resolver()) {
+				System.out.println(" ¡Sudoku resuelto exitosamente!\n");
+				System.out.println("=== SOLUCIÓN ===");
+				int[][] solucion2 = tablero2.getGrillaSolucion();
+				imprimirTablero(solucion2);
+			} else {
+				System.out.println(" No se encontró solución para este sudoku");
+			}
+        }
+        
+       
+//         Método auxiliar para imprimir el tablero 
+         
+        private static void imprimirTablero(int[][] tablero) {
+            for (int fila = 0; fila < 9; fila++) {
+                if (fila % 3 == 0 && fila != 0) {
+                    System.out.println("------+-------+------");
+                }
+                for (int col = 0; col < 9; col++) {
+                    if (col % 3 == 0 && col != 0) {
+                        System.out.print("| ");
+                    }
+                    int valor = tablero[fila][col];
+                    System.out.print((valor == 0 ? "." : valor) + " ");
+                }
+                System.out.println();
+            }
+        }
+    }
+    	
+
+		
+    
+    
