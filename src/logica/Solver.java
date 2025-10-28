@@ -22,8 +22,9 @@ public class Solver {
         
         // 2) Si no hay celdas vacías, el tablero está resuelto
         if (posicionVacia == null) {
+        	
         	guardarSolucion();
-        	return true; // cambiar a false si se quiere encontrar todas las soluciones 
+        	return false; // cambiar a false si se quiere encontrar todas las soluciones 
         }
         
         // Obtenemos fila y columna de la celda vacía
@@ -37,17 +38,16 @@ public class Solver {
                 tablero.getGrilla()[fila][col].setValor(num);         
                 
                 // 5) Llamada recursiva para que continúe resolviendo
-                if (resolver()) {                	
-                    return true; // Si se pudo resolver, retornamos true
-                
-                }
-                
+                resolver();
+//                if (resolver()) {                	
+//                    return true; // Si se pudo resolver, retornamos true
+//                
+//                }               
                 // 6) Si no se pudo resolver, hacemos backtracking
                 tablero.getGrilla()[fila][col].setValor(0);
             }
         }
-        
-        
+               
         // 7) Si ningún número del 1 al 9 funcionó, retornamos false
         return false;
     }
@@ -81,14 +81,12 @@ public class Solver {
 		return soluciones;
 	}
     
-
-
 /////////////////MAIN///////////////////////////////////////
         
         public static void main(String[] args) {
             
             // Sudoku de ejemplo 
-            int[][] sudokuInicial = {
+            int[][] sudokuEj = {
                 {5, 3, 0, 0, 7, 0, 0, 0, 0},
                 {6, 0, 0, 1, 9, 5, 0, 0, 0},
                 {0, 9, 8, 0, 0, 0, 0, 6, 0},
@@ -99,48 +97,33 @@ public class Solver {
                 {0, 0, 0, 4, 1, 9, 0, 0, 5},
                 {0, 0, 0, 0, 8, 0, 0, 7, 9}
             };
-            
-            GeneradorSudoku generador = new GeneradorSudoku();
-            int[][] aleatorio = generador.generar(30);
-           
-            
-            System.out.println("=== SUDOKU INICIAL ===");
-            imprimirTablero(sudokuInicial);
-            
-            System.out.println("=== SUDOKU Aleatorio ===");
-            imprimirTablero(aleatorio);
+                             
+            System.out.println("=== SUDOKU ejemplo ===");
+            imprimirTablero(sudokuEj); 
             
             // Crear tablero y solver
-            Tablero tablero = new Tablero(sudokuInicial);
+            Tablero tablero = new Tablero(sudokuEj);
             Solver solver = new Solver(tablero);
-            
-            Tablero tablero2 = new Tablero(aleatorio);
-            Solver solver2 = new Solver(tablero2);
-            
+                        
             // Resolver
-            System.out.println("\n=== RESOLVIENDO... ===\n");
-            
+            System.out.println("\n=== RESOLVIENDO... ===\n");     
             if (solver.resolver()) {
                 System.out.println(" ¡Sudoku resuelto exitosamente!\n");
                 System.out.println("=== SOLUCIÓN ===");
-                int[][] solucion = tablero.getGrillaSolucion();
-                imprimirTablero(solucion);
+                
             } else {
                 System.out.println(" No se encontró solución para este sudoku");
             }
+            int[][] solucion = tablero.getGrillaSolucion();
+            imprimirTablero(solucion);
             
-            //resuelve aleatorio
-            if (solver2.resolver()) {
-				System.out.println(" ¡Sudoku resuelto exitosamente!\n");
-				System.out.println("=== SOLUCIÓN ===");
-				int[][] solucion2 = tablero2.getGrillaSolucion();
-				imprimirTablero(solucion2);
-			} else {
-				System.out.println(" No se encontró solución para este sudoku");
-			}
+            System.out.println("Número de soluciones encontradas: " + solver.getSoluciones().size());
+            imprimirTablero(solver.getSoluciones().get(3));
+            
+            
+            
         }
-        
-       
+               
 //         Método auxiliar para imprimir el tablero 
          
         private static void imprimirTablero(int[][] tablero) {
@@ -158,9 +141,5 @@ public class Solver {
                 System.out.println();
             }
         }
-    }
-    	
-
-		
-    
+    }    			
     
