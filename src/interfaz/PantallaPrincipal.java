@@ -3,16 +3,18 @@ package interfaz;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
 import logica.Controlador;
 import logica.Tablero;
 import logica.Observador;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class PantallaPrincipal extends JFrame implements Observador {
 
-    private JPanel contentPane; 
-    private JTextField[][] grillaCampos; 
+    private JPanel contentPane;
+    private JTextField[][] grillaCampos;
     private JPanel _panelGrilla;
     private JPanel panelBotones;
 
@@ -57,7 +59,7 @@ public class PantallaPrincipal extends JFrame implements Observador {
         // Vinculamos eventos a controlador
         configurarEventos();
 
-        this.pack(); 
+        this.pack();
         this.setLocationRelativeTo(null);
     }
 
@@ -71,23 +73,52 @@ public class PantallaPrincipal extends JFrame implements Observador {
         grillaCampos = new JTextField[9][9];
         for (int f = 0; f < 9; f++) {
             for (int c = 0; c < 9; c++) {
-                grillaCampos[f][c] = new JTextField();
-                grillaCampos[f][c].setHorizontalAlignment(SwingConstants.CENTER);
-                grillaCampos[f][c].setFont(new Font("Arial", Font.BOLD, 20));
-                grillaCampos[f][c].setColumns(1);
-                limitarCaracterCelda(grillaCampos[f][c]);
-                _panelGrilla.add(grillaCampos[f][c]);
+                JTextField campo = new JTextField();
+                campo.setHorizontalAlignment(SwingConstants.CENTER);
+                campo.setFont(new Font("Arial", Font.BOLD, 20));
+                campo.setColumns(1);
+
+                // Limitar entrada y notificar al controlador
+                configurarCampo(campo, f, c);
+
+                grillaCampos[f][c] = campo;
+                _panelGrilla.add(campo);
             }
         }
     }
 
-    private void limitarCaracterCelda(JTextField campo) {
+    private void configurarCampo(JTextField campo, int fila, int columna) {
         campo.addKeyListener(new KeyAdapter() {
+            @Override
             public void keyTyped(KeyEvent e) {
                 char ch = e.getKeyChar();
+
+                // Solo permitir dígitos del 1 al 9 y una cifra por celda
                 if (!Character.isDigit(ch) || ch == '0' || campo.getText().length() >= 1) {
                     e.consume();
                 }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String texto = campo.getText().trim();
+                int valor = 0;
+
+                if (!texto.isEmpty()) {
+                    try {
+                        valor = Integer.parseInt(texto);
+                        if (valor < 1 || valor > 9) {
+                            campo.setText("");
+                            return;
+                        }
+                    } catch (NumberFormatException ex) {
+                        campo.setText("");
+                        return;
+                    }
+                }
+
+                // Notificar al controlador del nuevo valor
+                _controlador.setValor(fila, columna, valor);
             }
         });
     }
@@ -98,23 +129,23 @@ public class PantallaPrincipal extends JFrame implements Observador {
         for (int f = 0; f < 9; f++) {
             for (int c = 0; c < 9; c++) {
                 int val = datos[f][c];
-                grillaCampos[f][c].setText(val == 0 ? "" : String.valueOf(val));
+                String texto = val == 0 ? "" : String.valueOf(val);
+                if (!grillaCampos[f][c].getText().equals(texto)) {
+                    grillaCampos[f][c].setText(texto);
+                }
             }
         }
     }
 
-    public int[][] getDatosDeGrilla() {
-        int[][] datos = new int[9][9];
-        for (int f = 0; f < 9; f++) {
-            for (int c = 0; c < 9; c++) {
-                String texto = grillaCampos[f][c].getText();
-                datos[f][c] = texto.isEmpty() ? 0 : Integer.parseInt(texto);
-            }
-        }
-        return datos;
+    @Override
+    public void noSoluble() {
+        // Mostrar un diálogo modal con el mensaje
+        javax.swing.JOptionPane.showMessageDialog(
+            null,                        // sin componente padre → centrado en la pantalla
+            "No es soluble",             // mensaje
+            "Sudoku",                    // título de la ventana
+            javax.swing.JOptionPane.WARNING_MESSAGE // icono de advertencia
+        );
     }
 
-    public void mostrarError(String mensaje) {
-        JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
-    }
 }

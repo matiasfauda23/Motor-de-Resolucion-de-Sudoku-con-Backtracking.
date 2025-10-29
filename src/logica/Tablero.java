@@ -8,23 +8,12 @@ public class Tablero {
     private Validador validador = new Validador(this);
     private ArrayList<Observador> observadores = new ArrayList<>();
 
-    // ---------------- CONSTRUCTORES ----------------
+    // ---------------- CONSTRUCTOR ----------------
     public Tablero() {
         this.cajas = new Caja[3][3];
         inicializarEstructurasVacias();
     }
-
-    // ---------------- OBSERVER ----------------
-    public void agregarObservador(Observador o) {
-        observadores.add(o);
-    }
-
-    public void notificarObservadores() {
-        for (Observador o : observadores) {
-            o.actualizar();
-        }
-    }
-
+    
     // ---------------- INICIALIZACIÓN ----------------
     private void inicializarEstructurasVacias() {
         for (int i = 0; i < 3; i++) {
@@ -45,7 +34,24 @@ public class Tablero {
             }
         }
     }
+
+    // ---------------- OBSERVER ----------------
+    public void agregarObservador(Observador o) {
+        observadores.add(o);
+    }
+
+    private void notificarObservadores() {
+        for (Observador o : observadores) {
+            o.actualizar();
+        }
+    }
     
+    private void noEsSolubleObservadores() {
+        for (Observador o : observadores) {
+            o.noSoluble();
+        }
+    }
+  
  // ---------------- CARGA MANUAL ----------------
     public void cargarDesdeMatriz(int[][] matriz) {
         if (matriz == null || matriz.length != 9) {
@@ -103,7 +109,10 @@ public class Tablero {
     // ---------------- BACKTRACKING ----------------
     public boolean resolver() {
         int[] pos = encontrarProximaCeldaVacia();
-        if (pos == null) return true; // tablero completo → solución encontrada
+        if (pos == null) {
+        	notificarObservadores();
+        	return true; // tablero completo → solución encontrada
+        } 
 
         int fila = pos[0];
         int col = pos[1];
@@ -161,6 +170,14 @@ public class Tablero {
         if (fila < 0 || fila > 8 || col < 0 || col > 8) {
             throw new IllegalArgumentException("Fila y columna deben estar entre 0 y 8.");
         }
+    }
+    
+    public boolean esSoluble() {
+    	if(!validador.esTableroSoluble()) {
+    		noEsSolubleObservadores();
+    		return false;
+    	}
+    	return true;
     }
 
     // ---------------- FUNCIONES AUXILIARES ----------------

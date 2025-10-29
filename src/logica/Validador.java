@@ -45,6 +45,31 @@ public class Validador {
         return true;
     }
     
+    public boolean esTableroSoluble() {
+        for (int fila = 0; fila < 9; fila++) {
+            for (int col = 0; col < 9; col++) {
+                int valor = _tablero.getValor(fila, col);
+                Celda celda = _tablero.getCelda(fila, col);
+
+                // Solo revisamos celdas prefijadas (valores ingresados por el usuario)
+                if (valor != 0 && celda.getEsPrefijada()) {
+                    // Temporariamente vaciamos la celda para no comparar consigo misma
+                    celda.setValor(0);
+
+                    if (!esMovimientoValido(fila, col, valor)) {
+                        // Restauramos el valor y retornamos false
+                        celda.setValor(valor);
+                        return false;
+                    }
+
+                    // Restauramos el valor
+                    celda.setValor(valor);
+                }
+            }
+        }
+        return true; // ningún conflicto → podría ser soluble
+    }
+
 
 }
 

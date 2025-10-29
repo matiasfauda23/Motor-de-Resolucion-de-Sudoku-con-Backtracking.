@@ -7,14 +7,16 @@ public class Controlador {
     public Controlador(Tablero t) {
         this.tablero = t;
     }
+    
+    public void setValor(int fila, int columna, int valor) {
+    	tablero.setValor(fila, columna, valor);
+    }
 
     public void resolverSudoku() {
-        boolean exito = tablero.resolver();
-        if (!exito) {
-            System.out.println("No se pudo resolver el Sudoku.");
-        }
-        tablero.notificarObservadores();
-
+    	if(!tablero.esSoluble()) {
+    		return;
+    	}
+        tablero.resolver();
     }
 
     public void generarSudoku() {
