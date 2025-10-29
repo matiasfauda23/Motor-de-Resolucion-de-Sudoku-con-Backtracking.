@@ -29,10 +29,6 @@ public class Celda {
 		candidatos.remove(numero);		
 	}
 	
-	public void agregarCandidato(int numero) {
-		candidatos.add(numero);
-	}
-	
 	public void reiniciar() {
 	    if (!esPrefijada) {
 	        valor = 0;
@@ -48,12 +44,7 @@ public class Celda {
 	public Set<Integer> getCandidatos() {
 		return new HashSet<>(candidatos);
 	}
-	
-	//Copio los candidatos para evitar aliasing
-	public void setCandidatos(Set<Integer> candidatos) {
-		this.candidatos = new HashSet<>(candidatos);
-	}
-	
+		
 	public int getValor() {
 		return valor;
 	}
@@ -65,9 +56,5 @@ public class Celda {
 	public boolean getEsPrefijada() {
 		return esPrefijada;
 	}
-	
-	public void setEsPrefijada(boolean esPrefijada) {
-		this.esPrefijada = esPrefijada;
-	}
-	
+		
 }

@@ -213,17 +213,4 @@ public class Tablero {
         notificarObservadores();
     }
 
-    public void reiniciar() {
-        for (int cajaFila = 0; cajaFila < 3; cajaFila++) {
-            for (int cajaCol = 0; cajaCol < 3; cajaCol++) {
-                Caja caja = cajas[cajaFila][cajaCol];
-                for (int filaEnCaja = 0; filaEnCaja < 3; filaEnCaja++) {
-                    for (int colEnCaja = 0; colEnCaja < 3; colEnCaja++) {
-                        caja.getCelda(filaEnCaja, colEnCaja).reiniciar();
-                    }
-                }
-            }
-        }
-        notificarObservadores();
-    }
 }
