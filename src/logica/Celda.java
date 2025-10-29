@@ -56,5 +56,8 @@ public class Celda {
 	public boolean getEsPrefijada() {
 		return esPrefijada;
 	}
-		
+	
+	public void setEsPrefijada(boolean bol) {
+		this.esPrefijada=bol;
+	}
 }

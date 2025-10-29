@@ -10,23 +10,6 @@ import logica.Tablero;
 
 public class TestTablero {
 
-	// Tablero de prueba (un int[9][9])
-	int[][] grillaTest = {
-	    {5, 3, 0,  0, 7, 0,  0, 0, 0},
-	    {6, 0, 0,  1, 9, 5,  0, 0, 0},
-	    {0, 9, 8,  0, 0, 0,  0, 6, 0},
-
-	    {8, 0, 0,  0, 6, 0,  0, 0, 3},
-	    {4, 0, 0,  8, 0, 3,  0, 0, 1},
-	    {7, 0, 0,  0, 2, 0,  0, 0, 6},
-
-	    {0, 6, 0,  0, 0, 0,  2, 8, 0},
-	    {0, 0, 0,  4, 1, 9,  0, 0, 5},
-	    {0, 0, 0,  0, 8, 0,  0, 7, 9}
-	};
-	
-	
-	Tablero tablero = new Tablero(grillaTest);
 	
 	//Vamos a probar que el algoritmo de backtracking resuelva tablero con solucion
 	@Test
@@ -57,7 +40,8 @@ public class TestTablero {
 		        {2, 8, 7,  4, 1, 9,  6, 3, 5},
 		        {3, 4, 5,  2, 8, 6,  1, 7, 9}
 		    };
-		Tablero tablero = new Tablero(problema);
+		Tablero tablero = new Tablero();
+		tablero.cargarDesdeMatriz(problema);
 		boolean tieneSolucion = tablero.resolver();
 		assertTrue(tieneSolucion);
 		//Verifico que la solucion sea correcta
@@ -83,8 +67,10 @@ public class TestTablero {
 	        {0, 0, 0,  0, 8, 0,  0, 7, 9}
 	    };
 	    
-	    Tablero tablero = new Tablero(problemaImposible);
+	    Tablero tablero = new Tablero();
+	    tablero.cargarDesdeMatriz(problemaImposible);
 	    boolean tieneSolucion = tablero.resolver();
+	    System.out.println(tieneSolucion);
 	    assertFalse(tieneSolucion);
 	}
 	}

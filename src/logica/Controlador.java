@@ -18,7 +18,7 @@ public class Controlador {
     }
 
     public void generarSudoku() {
-        tablero.llenarAleatoriamente();
+        tablero.llenarAleatoriamente(17);
     }
 
     public void limpiarGrilla() {
