@@ -1,54 +1,27 @@
 package logica;
-import interfaz.PantallaPrincipal;
 
-public class Controlador{
-	//Atributos
-	private Tablero _modelo;
-	private PantallaPrincipal _vista;
+public class Controlador {
 
-	//Constructor
-	public Controlador(PantallaPrincipal vista) {
-		this._vista = vista;
-		conectarBotones();
-	}
+    private Tablero tablero;
 
-	private void conectarBotones() {
-		_vista.getBotonResolver().addActionListener(e -> resolverSudoku());
-		_vista.getBotonLimpiar().addActionListener(e -> limpiarGrilla());
-		_vista.getBotonGenerar().addActionListener(e -> generarSudoku());
-	}
+    public Controlador(Tablero t) {
+        this.tablero = t;
+    }
 
-	private void resolverSudoku() {
-		try {
-            int[][] datos = _vista.getDatosDeGrilla();
-            _modelo = new Tablero(datos);
-           
-            if (_modelo.resolver()) {
-                int[][] solucion = _modelo.getGrillaSolucion();
-                _vista.setDatosEnGrilla(solucion);
-                
-            } else {
-                _vista.mostrarError("El Sudoku ingresado no tiene solucion.");
-            }
-            
-        } 
-		catch (Exception e) {
-            _vista.mostrarError("Error en los datos ingresados: " + e.getMessage());
+    public void resolverSudoku() {
+        boolean exito = tablero.resolver();
+        if (!exito) {
+            System.out.println("No se pudo resolver el Sudoku.");
         }
-    }
-	
-	private void generarSudoku() {
-		
-        GeneradorSudoku generador = new GeneradorSudoku();
-        
-        int celdasPrefijadas = 30; 
-        int[][] puzzle = generador.generar(celdasPrefijadas);
-        
-        _vista.limpiarTablero();
-        _vista.setNuevoPuzzle(puzzle);
+        tablero.notificarObservadores();
+
     }
 
-	private void limpiarGrilla() {
-        _vista.limpiarTablero();
+    public void generarSudoku() {
+        tablero.llenarAleatoriamente();
+    }
+
+    public void limpiarGrilla() {
+        tablero.limpiar();
     }
 }
