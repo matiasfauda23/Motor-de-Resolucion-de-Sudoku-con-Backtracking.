@@ -97,7 +97,7 @@ public class Tablero {
                 int valor = 1 + random.nextInt(9);
                 if (validador.esMovimientoValido(fila, col, valor)) {
                     celda.setValor(valor);
-                    celda.setEsPrefijada(true);
+                    celda.setEsPrefijada(false);
                     colocados++;
                 }
             }
@@ -152,6 +152,7 @@ public class Tablero {
         Celda celda = getCelda(fila, col);
         if (!celda.getEsPrefijada()) {
             celda.setValor(valor);
+            celda.setEsPrefijada(true);
             notificarObservadores();
         }
     }
