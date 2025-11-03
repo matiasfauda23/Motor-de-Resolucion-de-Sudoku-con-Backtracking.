@@ -8,10 +8,39 @@ import org.junit.Test;
 
 import logica.Tablero;
 
-public class TestTablero {
-
+public class TableroTest {
 	
-	//Vamos a probar que el algoritmo de backtracking resuelva tablero con solucion
+	//caso borde: tablero vacio
+	@Test
+	public void testResolverTableroVacio() {
+		int [][] problema = {
+		        {0, 0, 0,  0, 0, 0,  0, 0, 0},
+		        {0, 0, 0,  0, 0, 0,  0, 0, 0},
+		        {0, 0, 0,  0, 0, 0,  0, 0, 0},
+
+		        {0, 0, 0,  0, 0, 0,  0, 0, 0},
+		        {0, 0, 0,  0, 0, 0,  0, 0, 0},
+		        {0, 0, 0,  0, 0, 0,  0, 0, 0},
+
+		        {0, 0, 0,  0, 0, 0,  0, 0, 0},
+		        {0, 0, 0,  0, 0, 0,  0, 0, 0},
+		        {0, 0, 0, 0, 0, 0,  0, 0, 0}
+		    };
+		Tablero tablero = new Tablero();
+		tablero.cargarDesdeMatriz(problema);
+		boolean tieneSolucion = tablero.resolver();
+		assertTrue(tieneSolucion);
+	}
+	
+	@Test
+	public void testResolverTableroAleatorio() {
+		Tablero tablero = new Tablero();
+		tablero.llenarAleatoriamente(20); 
+		boolean tieneSolucion = tablero.resolver();
+		assertTrue(tieneSolucion);
+	}
+	
+	//algoritmo de backtracking happy path
 	@Test
 	public void testResolverTableroValido() {
 		int [][] problema = {
