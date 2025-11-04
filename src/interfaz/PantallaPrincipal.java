@@ -89,6 +89,7 @@ public class PantallaPrincipal extends JFrame implements Observador {
 
     private void configurarCampo(JTextField campo, int fila, int columna) {
         campo.addKeyListener(new KeyAdapter() {
+
             @Override
             public void keyTyped(KeyEvent e) {
                 char ch = e.getKeyChar();
@@ -101,6 +102,13 @@ public class PantallaPrincipal extends JFrame implements Observador {
 
             @Override
             public void keyReleased(KeyEvent e) {
+                // 🟨 Nuevo: Si presiona Backspace, borrar valor
+                if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+                    campo.setText("");
+                    _controlador.borrarValor(fila, columna);
+                    return;
+                }
+
                 String texto = campo.getText().trim();
                 int valor = 0;
 
@@ -139,7 +147,6 @@ public class PantallaPrincipal extends JFrame implements Observador {
 
     @Override
     public void noSoluble() {
-        // Mostrar un diálogo modal con el mensaje
         javax.swing.JOptionPane.showMessageDialog(
             null,                        // sin componente padre → centrado en la pantalla
             "No es soluble",             // mensaje
@@ -147,5 +154,25 @@ public class PantallaPrincipal extends JFrame implements Observador {
             javax.swing.JOptionPane.WARNING_MESSAGE // icono de advertencia
         );
     }
+
+	@Override
+	public void noEsposibleRellenar() {
+        javax.swing.JOptionPane.showMessageDialog(
+                null,                        // sin componente padre → centrado en la pantalla
+                "No es posible rellenar con 17 lugares, tiene libre " + _controlador.lugaresLibres(),             // mensaje
+                "Sudoku",                    // título de la ventana
+           javax.swing.JOptionPane.WARNING_MESSAGE // icono de advertencia
+        );		
+	}
+
+	@Override
+	public void yaEstaResuelto() {
+        javax.swing.JOptionPane.showMessageDialog(
+                null,                        // sin componente padre → centrado en la pantalla
+                "El sudoku ya esta resuelto, limpielo para volver a intentar",             // mensaje
+                "Sudoku",                    // título de la ventana
+           javax.swing.JOptionPane.WARNING_MESSAGE // icono de advertencia
+        );			
+	}
 
 }
