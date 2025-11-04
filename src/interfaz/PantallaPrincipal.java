@@ -159,7 +159,9 @@ public class PantallaPrincipal extends JFrame implements Observador {
 	public void noEsposibleRellenar() {
         javax.swing.JOptionPane.showMessageDialog(
                 null,                        // sin componente padre → centrado en la pantalla
-                "No es posible rellenar con 17 lugares, tiene libre " + _controlador.lugaresLibres(),             // mensaje
+                "No es posible rellenar con " 
+                + _controlador.get_num_d_celdas_p_aleatorio()
+                + "lugares, tiene libre " + _controlador.lugaresLibres(),             // mensaje
                 "Sudoku",                    // título de la ventana
            javax.swing.JOptionPane.WARNING_MESSAGE // icono de advertencia
         );		

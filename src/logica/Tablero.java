@@ -8,11 +8,13 @@ public class Tablero {
     private Validador validador = new Validador(this);
     private ArrayList<Observador> observadores = new ArrayList<>();
 
+    
     // ---------------- CONSTRUCTOR ----------------
     public Tablero() {
         this.celdas = new Celda[9][9];
         inicializarEstructurasVacias();
     }
+    
     
     // ---------------- INICIALIZACIÓN ----------------
     private void inicializarEstructurasVacias() {
@@ -23,6 +25,7 @@ public class Tablero {
         }
     }
 
+    
     // ---------------- OBSERVER ----------------
     public void agregarObservador(Observador o) {
         observadores.add(o);
@@ -52,6 +55,7 @@ public class Tablero {
         }
     }
 
+    
     // ---------------- CARGA MANUAL ----------------
     public void cargarDesdeMatriz(int[][] matriz) {
         if (matriz == null || matriz.length != 9)
@@ -74,6 +78,7 @@ public class Tablero {
         notificarObservadores();
     }
 
+    
     // ---------------- LLENADO ALEATORIO ----------------
     public void llenarAleatoriamente(int cantidadInicial) {
         Random random = new Random();
@@ -96,6 +101,7 @@ public class Tablero {
         notificarObservadores();
     }
 
+    
     // ---------------- BACKTRACKING ----------------
     public boolean resolver() {
         int[] pos = encontrarProximaCeldaVacia();
@@ -118,8 +124,9 @@ public class Tablero {
         return false;
     }
 
+    
     // ---------------- BÚSQUEDA ----------------
-    public int[] encontrarProximaCeldaVacia() {
+    private int[] encontrarProximaCeldaVacia() {
         for (int fila = 0; fila < 9; fila++) {
             for (int col = 0; col < 9; col++) {
                 Celda celda = getCelda(fila, col);
@@ -161,6 +168,7 @@ public class Tablero {
         return celdas[fila][col];
     }
 
+    
     // ---------------- VALIDACIONES ----------------
     private void validarCoordenadas(int fila, int col) {
         if (fila < 0 || fila > 8 || col < 0 || col > 8)
@@ -175,8 +183,7 @@ public class Tablero {
         return true;
     }
     
-    
-
+  
     // ---------------- FUNCIONES AUXILIARES ----------------
     public void limpiar() {
         for (int fila = 0; fila < 9; fila++) {
@@ -226,7 +233,6 @@ public class Tablero {
 	    	yaEstaResuelto();
 	    	return false;
 	    }
-	    // Verificar que todas las filas, columnas y regiones sean válidas
 	    return true;
 	}
 

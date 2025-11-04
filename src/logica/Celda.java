@@ -6,7 +6,6 @@ import java.util.Set;
 
 public class Celda {
 	private int valor ;
-	private final int valorOriginal; // para reiniciar
 	private boolean esPrefijada; // si es parte del sudoku inicial o no
 
 	public Celda(int valor, boolean esPrefijada) {
@@ -19,18 +18,7 @@ public class Celda {
 	    }
 	    
 	    this.valor = valor;
-	    this.valorOriginal = valor;
 	    this.esPrefijada = esPrefijada;
-	}
-	
-	
-	public void reiniciar() {
-	    if (!esPrefijada) {
-	        valor = 0;
-	    }
-	    else {
-	        valor = valorOriginal; //Si es prefijada, restaura el valor original
-	    }
 	}
 	
     ///setters y getters

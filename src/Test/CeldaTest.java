@@ -11,7 +11,6 @@ import logica.Celda;
 public class CeldaTest {
 	
 	//Tests de celdas correctas
-
 	@Test
 	public void testCrearCeldaPrefijada() {
 		Celda celda = new Celda(5, true);
@@ -36,26 +35,4 @@ public class CeldaTest {
 		new Celda(0, true);;
 	}
 
-	@Test
-	public void testReiniciarCeldaPrefijada() {
-		//Creo celda prefijada
-		Celda celda = new Celda(5, true);
-		//Seteo un valor
-		celda.setValor(9);
-		celda.reiniciar();
-		//Al reiniciar,el valor no debe cambiar
-		assertEquals(5, celda.getValor());
-	}
-	
-	@Test
-	public void testReiniciarCeldaNoPrefijada() {
-		//Creo celda no prefijada
-		Celda celda = new Celda(0, false);
-		//Seteo un valor
-		celda.setValor(7);
-		celda.reiniciar();
-		//Al reiniciar, el valor debe ser 0 y debe restaurar los candidatos
-		assertEquals(0, celda.getValor());
-	}
-	
 }
