@@ -13,7 +13,11 @@ import java.awt.event.KeyEvent;
 
 public class PantallaPrincipal extends JFrame implements Observador {
 
-    private JPanel contentPane;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
     private JTextField[][] grillaCampos;
     private JPanel _panelGrilla;
     private JPanel panelBotones;
@@ -21,6 +25,7 @@ public class PantallaPrincipal extends JFrame implements Observador {
     private JButton _botonResolver;
     private JButton _botonGenerar;
     private JButton _botonLimpiar;
+    private JSpinner spinnerCeldas;
 
     private Controlador _controlador;
     private Tablero _tablero;
@@ -55,6 +60,13 @@ public class PantallaPrincipal extends JFrame implements Observador {
         panelBotones.add(_botonResolver);
         panelBotones.add(_botonGenerar);
         panelBotones.add(_botonLimpiar);
+        JLabel labelCeldas = new JLabel("Celdas:");
+ 
+        SpinnerModel model = new SpinnerNumberModel(15, 10, 20, 1); 
+        spinnerCeldas = new JSpinner(model);
+
+        panelBotones.add(labelCeldas);
+        panelBotones.add(spinnerCeldas);
 
         // Vinculamos eventos a controlador
         configurarEventos();
@@ -65,7 +77,15 @@ public class PantallaPrincipal extends JFrame implements Observador {
 
     private void configurarEventos() {
         _botonResolver.addActionListener(e -> _controlador.resolverSudoku());
-        _botonGenerar.addActionListener(e -> _controlador.generarSudoku());
+     //   _botonGenerar.addActionListener(e -> _controlador.generarSudoku());
+      
+        _botonGenerar.addActionListener(e -> {
+            int cantidad = (int) spinnerCeldas.getValue();
+            _controlador.generarSudoku(cantidad);
+        });
+        
+        _botonLimpiar.addActionListener(e -> _controlador.limpiarGrilla());
+    
         _botonLimpiar.addActionListener(e -> _controlador.limpiarGrilla());
     }
 
@@ -102,7 +122,6 @@ public class PantallaPrincipal extends JFrame implements Observador {
 
             @Override
             public void keyReleased(KeyEvent e) {
-                // 🟨 Nuevo: Si presiona Backspace, borrar valor
                 if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
                     campo.setText("");
                     _controlador.borrarValor(fila, columna);
@@ -148,23 +167,21 @@ public class PantallaPrincipal extends JFrame implements Observador {
     @Override
     public void noSoluble() {
         javax.swing.JOptionPane.showMessageDialog(
-            null,                        // sin componente padre → centrado en la pantalla
-            "No es soluble",             // mensaje
-            "Sudoku",                    // título de la ventana
-            javax.swing.JOptionPane.WARNING_MESSAGE // icono de advertencia
+            null,                        
+            "No es soluble",             
+            "Sudoku",                    
+            javax.swing.JOptionPane.WARNING_MESSAGE 
         );
     }
 
 	@Override
 	public void noEsposibleRellenar() {
-        javax.swing.JOptionPane.showMessageDialog(
-                null,                        // sin componente padre → centrado en la pantalla
-                "No es posible rellenar con " 
-                + _controlador.get_num_d_celdas_p_aleatorio()
-                + "lugares, tiene libre " + _controlador.lugaresLibres(),             // mensaje
-                "Sudoku",                    // título de la ventana
-           javax.swing.JOptionPane.WARNING_MESSAGE // icono de advertencia
-        );		
+		javax.swing.JOptionPane.showMessageDialog(
+	            null,
+	            "El tablero ya está lleno. Limpie la grilla para generar uno nuevo.",
+	            "Sudoku",
+	            javax.swing.JOptionPane.WARNING_MESSAGE
+	    );
 	}
 
 	@Override

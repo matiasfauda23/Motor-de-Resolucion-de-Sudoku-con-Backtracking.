@@ -3,7 +3,7 @@ package logica;
 public class Controlador {
 
     private Tablero tablero;
-    private int _num_d_celdas_p_aleatorio = 17;
+ //   private int _num_d_celdas_p_aleatorio = 17;
 
     public Controlador(Tablero t) {
         this.tablero = t;
@@ -27,11 +27,17 @@ public class Controlador {
         tablero.resolver();
     }
 
-    public void generarSudoku() {
+    /*public void generarSudoku() {
     	if(!tablero.tieneLugaresVacios()) {
     		return;
     	}
         tablero.llenarAleatoriamente(_num_d_celdas_p_aleatorio);
+    }*/
+    public void generarSudoku(int cantidad) {
+        if (!tablero.tieneLugaresVacios()) {
+            return;
+        }
+        tablero.llenarAleatoriamente(cantidad);
     }
 
     public void limpiarGrilla() {
@@ -42,9 +48,9 @@ public class Controlador {
 		return tablero.lugaresLibres();
 	}
 
-	public int get_num_d_celdas_p_aleatorio() {
+	/*public int get_num_d_celdas_p_aleatorio() {
 		return _num_d_celdas_p_aleatorio;
-	}
+	}*/
 	
 	
 }

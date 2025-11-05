@@ -1,7 +1,5 @@
 package logica;
 
-import java.awt.EventQueue;
-
 import interfaz.PantallaPrincipal;
 
 public class Main {

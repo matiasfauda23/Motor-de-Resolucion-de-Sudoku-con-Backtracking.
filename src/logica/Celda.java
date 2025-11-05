@@ -1,9 +1,5 @@
 package logica;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 public class Celda {
 	private int valor ;
 	private boolean esPrefijada; // si es parte del sudoku inicial o no
