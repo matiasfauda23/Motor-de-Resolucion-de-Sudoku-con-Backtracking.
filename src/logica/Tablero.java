@@ -149,7 +149,7 @@ public class Tablero {
         Celda celda = celdas[fila][col];
         if (!celda.getEsPrefijada()) {
             celda.setValor(valor);
-            celda.setEsPrefijada(true);
+        //    celda.setEsPrefijada(true);
             notificarObservadores();
         }
     }

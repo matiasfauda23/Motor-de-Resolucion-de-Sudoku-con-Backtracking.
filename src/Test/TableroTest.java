@@ -102,4 +102,31 @@ public class TableroTest {
 	    System.out.println(tieneSolucion);
 	    assertFalse(tieneSolucion);
 	}
+	
+	//Grilla de prueba para test
+	int[][] grillaTest = {
+	        {5, 3, 0,  0, 7, 0,  0, 0, 0},
+	        {6, 0, 0,  1, 9, 5,  0, 0, 0},
+	        {0, 9, 8,  0, 0, 0,  0, 6, 0},
+	        {8, 0, 0,  0, 6, 0,  0, 0, 3},
+	        {4, 0, 0,  8, 0, 3,  0, 0, 1},
+	        {7, 0, 0,  0, 2, 0,  0, 0, 6},
+	        {0, 6, 0,  0, 0, 0,  2, 8, 0},
+	        {0, 0, 0,  4, 1, 9,  0, 0, 5},
+	        {0, 0, 0,  0, 8, 0,  0, 7, 9}
+	    };
+
+		@Test
+		public void testLimpiarBorraInputDeUsuarioPeroNoPrefijadas() {
+		    Tablero tablero = new Tablero();
+		    tablero.cargarDesdeMatriz(grillaTest); 
+		    tablero.setValor(0, 2, 9);
+		    tablero.limpiar(); // Debería borrar el 9, pero no el 5
+
+		    assertEquals("El valor prefijado (0,0) no debe borrarse", 
+		                 5, tablero.getValor(0, 0));
+		    assertEquals("El valor del usuario (0,2) debe borrarse", 
+		                 0, tablero.getValor(0, 2));
+		}
+	
 	}
