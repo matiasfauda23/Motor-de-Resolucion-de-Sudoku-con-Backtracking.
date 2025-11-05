@@ -8,4 +8,8 @@ public interface Observador {
 	void noEsposibleRellenar();
 	
 	void yaEstaResuelto();
+	
+	void mostrarNavegacion(int indiceActual, int totalSoluciones);
+	
+	void ocultarNavegacion();
 }

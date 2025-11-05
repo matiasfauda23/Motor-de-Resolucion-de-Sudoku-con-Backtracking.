@@ -3,8 +3,7 @@ package logica;
 public class Controlador {
 
     private Tablero tablero;
- //   private int _num_d_celdas_p_aleatorio = 17;
-
+    
     public Controlador(Tablero t) {
         this.tablero = t;
     }
@@ -18,21 +17,23 @@ public class Controlador {
     }
 
     public void resolverSudoku() {
-    	if(!tablero.esSoluble()) {
-    		return;
-    	}
-    	if(tablero.estaResuelto()) {
-    		return;
-    	}
-        tablero.resolver();
+        if (!tablero.esSoluble()) {
+            return;
+        }
+        
+        tablero.encontrarTodasLasSoluciones();
+        
+        int cantidad = tablero.getCantidadSoluciones(); 
+        
+        if (cantidad == 0) {
+            tablero.noEsSolubleObservadores();
+        } else {
+            tablero.cargarSolucion(0); 
+            tablero.notificarConteoSoluciones(); 
+        }
     }
 
-    /*public void generarSudoku() {
-    	if(!tablero.tieneLugaresVacios()) {
-    		return;
-    	}
-        tablero.llenarAleatoriamente(_num_d_celdas_p_aleatorio);
-    }*/
+ 
     public void generarSudoku(int cantidad) {
         if (!tablero.tieneLugaresVacios()) {
             return;
@@ -43,14 +44,29 @@ public class Controlador {
     public void limpiarGrilla() {
         tablero.limpiar();
     }
+    
+    public void mostrarSiguienteSolucion() {
+        int actual = tablero.getIndiceSolucionActual();
+        if (actual < tablero.getCantidadSoluciones() - 1) {
+            tablero.cargarSolucion(actual + 1);
+            tablero.notificarConteoSoluciones();
+        }
+    }
+
+    public void mostrarAnteriorSolucion() {
+        int actual = tablero.getIndiceSolucionActual();
+        if (actual > 0) {
+            tablero.cargarSolucion(actual - 1);
+            tablero.notificarConteoSoluciones();
+        }
+    }
+
+    public int getIndiceSolucionActual() {
+        return tablero.getIndiceSolucionActual();
+    }
 
 	public int lugaresLibres() {
 		return tablero.lugaresLibres();
 	}
-
-	/*public int get_num_d_celdas_p_aleatorio() {
-		return _num_d_celdas_p_aleatorio;
-	}*/
-	
-	
+		
 }

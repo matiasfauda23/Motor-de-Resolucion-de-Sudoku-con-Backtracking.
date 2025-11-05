@@ -28,7 +28,7 @@ public class TableroTest {
 		    };
 		Tablero tablero = new Tablero();
 		tablero.cargarDesdeMatriz(problema);
-		boolean tieneSolucion = tablero.resolver();
+		boolean tieneSolucion = tablero.resolverBacktrack();
 		assertTrue(tieneSolucion);
 	}
 	
@@ -36,7 +36,7 @@ public class TableroTest {
 	public void testResolverTableroAleatorio() {
 		Tablero tablero = new Tablero();
 		tablero.llenarAleatoriamente(20); 
-		boolean tieneSolucion = tablero.resolver();
+		boolean tieneSolucion = tablero.resolverBacktrack();
 		assertTrue(tieneSolucion);
 	}
 	
@@ -71,7 +71,7 @@ public class TableroTest {
 		    };
 		Tablero tablero = new Tablero();
 		tablero.cargarDesdeMatriz(problema);
-		boolean tieneSolucion = tablero.resolver();
+		boolean tieneSolucion = tablero.resolverBacktrack();
 		assertTrue(tieneSolucion);
 		//Verifico que la solucion sea correcta
 		for (int f = 0; f < 9; f++) {
@@ -98,7 +98,7 @@ public class TableroTest {
 	    
 	    Tablero tablero = new Tablero();
 	    tablero.cargarDesdeMatriz(problemaImposible);
-	    boolean tieneSolucion = tablero.resolver();
+	    boolean tieneSolucion = tablero.resolverBacktrack();
 	    System.out.println(tieneSolucion);
 	    assertFalse(tieneSolucion);
 	}

@@ -1,5 +1,6 @@
 package interfaz;
 
+import java.awt.Dimension;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -13,185 +14,217 @@ import java.awt.event.KeyEvent;
 
 public class PantallaPrincipal extends JFrame implements Observador {
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-    private JTextField[][] grillaCampos;
-    private JPanel _panelGrilla;
-    private JPanel panelBotones;
+	private JTextField[][] grillaCampos;
+	private JPanel _panelGrilla;
+	private JPanel panelBotones;
 
-    private JButton _botonResolver;
-    private JButton _botonGenerar;
-    private JButton _botonLimpiar;
-    private JSpinner spinnerCeldas;
+	private JButton _botonResolver;
+	private JButton _botonGenerar;
+	private JButton _botonLimpiar;
+	private JSpinner spinnerCeldas;
 
-    private Controlador _controlador;
-    private Tablero _tablero;
+	private JButton _botonAnterior;
+	private JButton _botonSiguiente;
+	private JLabel _labelContador;
 
-    public PantallaPrincipal(Tablero tablero, Controlador controlador) {
-        _tablero = tablero;
-        _controlador = controlador;
+	private Controlador _controlador;
+	private Tablero _tablero;
 
-        // La vista se suscribe al modelo
-        _tablero.agregarObservador(this);
+	public PantallaPrincipal(Tablero tablero, Controlador controlador) {
+		_tablero = tablero;
+		_controlador = controlador;
 
-        setTitle("Sudoku");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 395, 259);
+		// La vista se suscribe al modelo
+		_tablero.agregarObservador(this);
 
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        contentPane.setLayout(new BorderLayout(0, 0));
-        setContentPane(contentPane);
+		setTitle("Sudoku");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		contentPane = new JPanel();              
+		contentPane.setPreferredSize(new Dimension(700, 500));                       
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
 
-        _panelGrilla = new JPanel(new GridLayout(9, 9, 2, 2));
-        contentPane.add(_panelGrilla, BorderLayout.CENTER);
-        inicializarCamposDeTexto();
+		_panelGrilla = new JPanel(new GridLayout(9, 9, 2, 2));
+		contentPane.add(_panelGrilla, BorderLayout.CENTER);
+		inicializarCamposDeTexto();
 
-        panelBotones = new JPanel();
-        contentPane.add(panelBotones, BorderLayout.SOUTH);
+		panelBotones = new JPanel();
+		contentPane.add(panelBotones, BorderLayout.SOUTH);
 
-        _botonResolver = new JButton("Resolver");
-        _botonGenerar = new JButton("Generar Aleatorio");
-        _botonLimpiar = new JButton("Limpiar");
+		_botonResolver = new JButton("Resolver");
+		_botonGenerar = new JButton("Generar Aleatorio");
+		_botonLimpiar = new JButton("Limpiar");
 
-        panelBotones.add(_botonResolver);
-        panelBotones.add(_botonGenerar);
-        panelBotones.add(_botonLimpiar);
-        JLabel labelCeldas = new JLabel("Celdas:");
- 
-        SpinnerModel model = new SpinnerNumberModel(15, 10, 20, 1); 
-        spinnerCeldas = new JSpinner(model);
+		panelBotones.add(_botonResolver);
+		panelBotones.add(_botonGenerar);
+		panelBotones.add(_botonLimpiar);
+		JLabel labelCeldas = new JLabel("Celdas:");
 
-        panelBotones.add(labelCeldas);
-        panelBotones.add(spinnerCeldas);
+		SpinnerModel model = new SpinnerNumberModel(15, 10, 20, 1); 
+		spinnerCeldas = new JSpinner(model);
 
-        // Vinculamos eventos a controlador
-        configurarEventos();
+		panelBotones.add(labelCeldas);
+		panelBotones.add(spinnerCeldas);
 
-        this.pack();
-        this.setLocationRelativeTo(null);
-    }
+		_botonAnterior = new JButton("< Ant");
+		_botonSiguiente = new JButton("Sig >");
+		_labelContador = new JLabel("Solución 1 de 1");
 
-    private void configurarEventos() {
-        _botonResolver.addActionListener(e -> _controlador.resolverSudoku());
-     //   _botonGenerar.addActionListener(e -> _controlador.generarSudoku());
-      
-        _botonGenerar.addActionListener(e -> {
-            int cantidad = (int) spinnerCeldas.getValue();
-            _controlador.generarSudoku(cantidad);
-        });
-        
-        _botonLimpiar.addActionListener(e -> _controlador.limpiarGrilla());
-    
-        _botonLimpiar.addActionListener(e -> _controlador.limpiarGrilla());
-    }
+		panelBotones.add(_botonAnterior);
+		panelBotones.add(_labelContador);
+		panelBotones.add(_botonSiguiente);
 
-    private void inicializarCamposDeTexto() {
-        grillaCampos = new JTextField[9][9];
-        for (int f = 0; f < 9; f++) {
-            for (int c = 0; c < 9; c++) {
-                JTextField campo = new JTextField();
-                campo.setHorizontalAlignment(SwingConstants.CENTER);
-                campo.setFont(new Font("Arial", Font.BOLD, 20));
-                campo.setColumns(1);
 
-                // Limitar entrada y notificar al controlador
-                configurarCampo(campo, f, c);
 
-                grillaCampos[f][c] = campo;
-                _panelGrilla.add(campo);
-            }
-        }
-    }
+		// Vinculamos eventos a controlador
+		configurarEventos();
+		ocultarNavegacion();
 
-    private void configurarCampo(JTextField campo, int fila, int columna) {
-        campo.addKeyListener(new KeyAdapter() {
+		this.pack();
+		this.setLocationRelativeTo(null);
+	}
 
-            @Override
-            public void keyTyped(KeyEvent e) {
-                char ch = e.getKeyChar();
+	private void configurarEventos() {
+		_botonResolver.addActionListener(e -> _controlador.resolverSudoku());
+		_botonGenerar.addActionListener(e -> {
+			int cantidad = (int) spinnerCeldas.getValue();
+			_controlador.generarSudoku(cantidad);
+		});
 
-                // Solo permitir dígitos del 1 al 9 y una cifra por celda
-                if (!Character.isDigit(ch) || ch == '0' || campo.getText().length() >= 1) {
-                    e.consume();
-                }
-            }
+		_botonLimpiar.addActionListener(e -> _controlador.limpiarGrilla());
+		_botonSiguiente.addActionListener(e -> _controlador.mostrarSiguienteSolucion());
+		_botonAnterior.addActionListener(e -> _controlador.mostrarAnteriorSolucion());
+	}
 
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-                    campo.setText("");
-                    _controlador.borrarValor(fila, columna);
-                    return;
-                }
+	private void inicializarCamposDeTexto() {
+		grillaCampos = new JTextField[9][9];
+		for (int f = 0; f < 9; f++) {
+			for (int c = 0; c < 9; c++) {
+				JTextField campo = new JTextField();
+				campo.setHorizontalAlignment(SwingConstants.CENTER);
+				campo.setFont(new Font("Arial", Font.BOLD, 20));
+				campo.setColumns(1);
 
-                String texto = campo.getText().trim();
-                int valor = 0;
+				// Limitar entrada y notificar al controlador
+				configurarCampo(campo, f, c);
 
-                if (!texto.isEmpty()) {
-                    try {
-                        valor = Integer.parseInt(texto);
-                        if (valor < 1 || valor > 9) {
-                            campo.setText("");
-                            return;
-                        }
-                    } catch (NumberFormatException ex) {
-                        campo.setText("");
-                        return;
-                    }
-                }
+				grillaCampos[f][c] = campo;
+				_panelGrilla.add(campo);
+			}
+		}
+	}
 
-                // Notificar al controlador del nuevo valor
-                _controlador.setValor(fila, columna, valor);
-            }
-        });
-    }
+	private void configurarCampo(JTextField campo, int fila, int columna) {
+		campo.addKeyListener(new KeyAdapter() {
 
-    @Override
-    public void actualizar() {
-        int[][] datos = _tablero.getGrillaSolucion();
-        for (int f = 0; f < 9; f++) {
-            for (int c = 0; c < 9; c++) {
-                int val = datos[f][c];
-                String texto = val == 0 ? "" : String.valueOf(val);
-                if (!grillaCampos[f][c].getText().equals(texto)) {
-                    grillaCampos[f][c].setText(texto);
-                }
-            }
-        }
-    }
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char ch = e.getKeyChar();
 
-    @Override
-    public void noSoluble() {
-        javax.swing.JOptionPane.showMessageDialog(
-            null,                        
-            "No es soluble",             
-            "Sudoku",                    
-            javax.swing.JOptionPane.WARNING_MESSAGE 
-        );
-    }
+				// Solo permitir dígitos del 1 al 9 y una cifra por celda
+				if (!Character.isDigit(ch) || ch == '0' || campo.getText().length() >= 1) {
+					e.consume();
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+					campo.setText("");
+					_controlador.borrarValor(fila, columna);
+					return;
+				}
+
+				String texto = campo.getText().trim();
+				int valor = 0;
+
+				if (!texto.isEmpty()) {
+					try {
+						valor = Integer.parseInt(texto);
+						if (valor < 1 || valor > 9) {
+							campo.setText("");
+							return;
+						}
+					} catch (NumberFormatException ex) {
+						campo.setText("");
+						return;
+					}
+				}
+
+				// Notificar al controlador del nuevo valor
+				_controlador.setValor(fila, columna, valor);
+			}
+		});
+	}
+
+	@Override
+	public void actualizar() {
+		int[][] datos = _tablero.getGrillaSolucion();
+		for (int f = 0; f < 9; f++) {
+			for (int c = 0; c < 9; c++) {
+				int val = datos[f][c];
+				String texto = val == 0 ? "" : String.valueOf(val);
+				if (!grillaCampos[f][c].getText().equals(texto)) {
+					grillaCampos[f][c].setText(texto);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void noSoluble() {
+		javax.swing.JOptionPane.showMessageDialog(
+				null,                        
+				"No es soluble",             
+				"Sudoku",                    
+				javax.swing.JOptionPane.WARNING_MESSAGE 
+				);
+	}
 
 	@Override
 	public void noEsposibleRellenar() {
 		javax.swing.JOptionPane.showMessageDialog(
-	            null,
-	            "El tablero ya está lleno. Limpie la grilla para generar uno nuevo.",
-	            "Sudoku",
-	            javax.swing.JOptionPane.WARNING_MESSAGE
-	    );
+				null,
+				"El tablero ya está lleno. Limpie la grilla para generar uno nuevo.",
+				"Sudoku",
+				javax.swing.JOptionPane.WARNING_MESSAGE
+				);
 	}
 
 	@Override
 	public void yaEstaResuelto() {
-        javax.swing.JOptionPane.showMessageDialog(
-                null,                        // sin componente padre → centrado en la pantalla
-                "El sudoku ya esta resuelto, limpielo para volver a intentar",             // mensaje
-                "Sudoku",                    // título de la ventana
-           javax.swing.JOptionPane.WARNING_MESSAGE // icono de advertencia
-        );			
+		javax.swing.JOptionPane.showMessageDialog(
+				null,                        
+				"El sudoku ya esta resuelto, limpielo para volver a intentar",           
+				"Sudoku",                    
+				javax.swing.JOptionPane.WARNING_MESSAGE 
+				);			
+	}
+
+	@Override
+	public void mostrarNavegacion(int indiceActual, int totalSoluciones) {
+		_labelContador.setText("Solución " + (indiceActual + 1) + " de " + totalSoluciones);
+
+		_botonAnterior.setEnabled(indiceActual > 0);
+		_botonSiguiente.setEnabled(indiceActual < totalSoluciones - 1);
+
+		
+		_botonAnterior.setVisible(true);
+		_botonSiguiente.setVisible(true);
+		_labelContador.setVisible(true);
+	}
+
+	@Override
+	public void ocultarNavegacion() {
+		_botonAnterior.setVisible(false);
+		_botonSiguiente.setVisible(false);
+		_labelContador.setVisible(false);
 	}
 
 }
