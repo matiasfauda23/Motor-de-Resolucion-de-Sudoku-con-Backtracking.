@@ -56,7 +56,7 @@ public class PantallaPrincipal extends JFrame implements Observador {
 		setTitle("Sudoku");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane = new JPanel();              
-		contentPane.setPreferredSize(new Dimension(700, 500));                       
+		contentPane.setPreferredSize(new Dimension(1000, 800));                       
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
