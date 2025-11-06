@@ -1,7 +1,5 @@
 package logica;
 
-import java.util.List;
-
 public class Controlador {
 
     private Tablero tablero;
