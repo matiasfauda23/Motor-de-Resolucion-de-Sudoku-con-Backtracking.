@@ -5,6 +5,12 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+
 import logica.Controlador;
 import logica.Tablero;
 import logica.Observador;
@@ -25,15 +31,20 @@ public class PantallaPrincipal extends JFrame implements Observador {
 
 	private JButton _botonResolver;
 	private JButton _botonGenerar;
+	private JButton _botonMultiplesSodokus;
 	private JButton _botonLimpiar;
 	private JSpinner spinnerCeldas;
 
 	private JButton _botonAnterior;
 	private JButton _botonSiguiente;
 	private JLabel _labelContador;
+	
 
 	private Controlador _controlador;
 	private Tablero _tablero;
+	
+	private JFreeChart _grafico;
+	private DefaultCategoryDataset _datos;
 
 	public PantallaPrincipal(Tablero tablero, Controlador controlador) {
 		_tablero = tablero;
@@ -60,10 +71,13 @@ public class PantallaPrincipal extends JFrame implements Observador {
 		_botonResolver = new JButton("Resolver");
 		_botonGenerar = new JButton("Generar Aleatorio");
 		_botonLimpiar = new JButton("Limpiar");
+		_botonMultiplesSodokus = new JButton("Generar Múltiples Sudokus");
 
 		panelBotones.add(_botonResolver);
 		panelBotones.add(_botonGenerar);
 		panelBotones.add(_botonLimpiar);
+		panelBotones.add(_botonMultiplesSodokus);
+		
 		JLabel labelCeldas = new JLabel("Celdas:");
 
 		SpinnerModel model = new SpinnerNumberModel(15, 10, 20, 1); 
@@ -79,8 +93,6 @@ public class PantallaPrincipal extends JFrame implements Observador {
 		panelBotones.add(_botonAnterior);
 		panelBotones.add(_labelContador);
 		panelBotones.add(_botonSiguiente);
-
-
 
 		// Vinculamos eventos a controlador
 		configurarEventos();
@@ -100,6 +112,52 @@ public class PantallaPrincipal extends JFrame implements Observador {
 		_botonLimpiar.addActionListener(e -> _controlador.limpiarGrilla());
 		_botonSiguiente.addActionListener(e -> _controlador.mostrarSiguienteSolucion());
 		_botonAnterior.addActionListener(e -> _controlador.mostrarAnteriorSolucion());
+		_botonMultiplesSodokus.addActionListener(e -> {
+			
+			Tablero[] sodokus = new Tablero[2];
+			int n= 30; // numero de valores prefijos
+			for(int i=0;i<2;i++) {
+				Tablero nuevoTablero=new Tablero();
+				Controlador nuevoControlador=new Controlador(nuevoTablero);
+				
+				// el numero de valores prefijos tienen que ser distintos
+				nuevoTablero.llenarAleatoriamente(n-3); 
+				nuevoControlador.resolverSudoku();
+				
+				sodokus[i]=nuevoTablero;
+			}
+			
+			mostrarEstadisticas(sodokus);
+		});
+	}
+
+	private void mostrarEstadisticas(Tablero[] sodokus) {
+		 _datos = new DefaultCategoryDataset();
+		 
+		    // esto debe pasar a ser un for que recorra todos los sodokus generados
+		    _datos.addValue(sodokus[0].getTiempoResolucion(), "Sodoku1", "Sodokus");
+		    _datos.addValue(sodokus[1].getTiempoResolucion(), "Sodoku2", "Sodokus");
+
+		    // 2. Crear el gráfico con los daros
+		    _grafico = ChartFactory.createBarChart(
+		            "Tiempo de ejecución",           // Título
+		            "cantPrefijas",                       // Etiqueta del eje X
+		            "Cantidad de tiempo",            // Etiqueta del eje Y
+		            _datos,
+		            PlotOrientation.VERTICAL,
+		            true,
+		            false,
+		            false
+		    );
+
+		    //crear el panel con el gráfico que tiene datos
+		    ChartPanel panel = new ChartPanel(_grafico);
+		   		    
+		    //Crear y mostrar la ventana
+		    JFrame ventana = new JFrame("Gráfico de Sodokus - tiempo de ejecución");
+		    ventana.getContentPane().add(panel);
+		    ventana.pack();
+		    ventana.setVisible(true);
 	}
 
 	private void inicializarCamposDeTexto() {
