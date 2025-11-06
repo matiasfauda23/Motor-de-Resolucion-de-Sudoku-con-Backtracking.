@@ -1,6 +1,8 @@
-package logica;
+package Main;
 
 import interfaz.PantallaPrincipal;
+import logica.Controlador;
+import logica.Tablero;
 
 public class Main {
     public static void main(String[] args) {

@@ -17,10 +17,13 @@ public class Controlador {
     }
 
     public void resolverSudoku() {
-    	long inicio=System.currentTimeMillis();
         if (!tablero.esSoluble()) {
             return;
         }
+        if(tablero.estaResuelto()) {
+        	return;
+        }      
+    	long inicio=System.currentTimeMillis();
         
         tablero.encontrarTodasLasSoluciones();
         

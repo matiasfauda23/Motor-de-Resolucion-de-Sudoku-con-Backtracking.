@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Tablero {
-	private Celda[][] celdas; // antes Caja[][] cajas
+	private Celda[][] celdas;
 	private Validador validador = new Validador(this);
 	private ArrayList<Observador> observadores = new ArrayList<>();
 
@@ -53,11 +53,11 @@ public class Tablero {
 		}
 	}
 
-	/*private void yaEstaResuelto() {
+	private void yaEstaResuelto() {
 		for (Observador o : observadores) {
 			o.yaEstaResuelto();
 		}
-	}*/
+	}
 
 	void notificarConteoSoluciones() {
 		if (_soluciones == null) return;
@@ -177,7 +177,7 @@ public class Tablero {
 		Celda celda = celdas[fila][col];
 		if (!celda.getEsPrefijada()) {
 			celda.setValor(valor);
-			//    celda.setEsPrefijada(true);
+			celda.setEsPrefijada(true);
 			notificarObservadores();
 		}
 	}
@@ -297,7 +297,11 @@ public class Tablero {
 	}
 
 	public boolean estaResuelto() {
-		return validador.esTableroCompletoValido();
+		if(validador.esTableroCompletoValido()) {
+			yaEstaResuelto();
+			return true;
+		}
+		return false;
 	}
 
 }

@@ -56,17 +56,16 @@ public class Validador {
                 Celda celda = tablero.getCelda(fila, col);
                 int valor = celda.getValor();
 
-                // Solo revisamos las prefijadas con valor distinto de 0
-                if (valor != 0 && celda.getEsPrefijada()) {
-                    // Temporariamente vaciamos la celda para no compararse a sí misma
+
+                if (valor != 0) {
                     celda.setValor(0);
-
-                    if (!esMovimientoValido(fila, col, valor)) {
-                        celda.setValor(valor); // restauramos
-                        return false;
+                    try {
+                        if (!esMovimientoValido(fila, col, valor)) {
+                            return false;
+                        }
+                    } finally {
+                        celda.setValor(valor);
                     }
-
-                    celda.setValor(valor); // restauramos
                 }
             }
         }

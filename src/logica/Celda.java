@@ -1,8 +1,8 @@
 package logica;
 
 public class Celda {
-	private int valor ;
-	private boolean esPrefijada; // si es parte del sudoku inicial o no
+	public int valor ;
+	public boolean esPrefijada;
 
 	public Celda(int valor, boolean esPrefijada) {
 	    if(valor < 0 || valor > 9) { // Permitimos 0
