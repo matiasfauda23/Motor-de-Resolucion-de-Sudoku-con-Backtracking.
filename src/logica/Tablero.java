@@ -11,6 +11,7 @@ public class Tablero {
 	private ArrayList<int[][]> _soluciones;
 	private int _indiceSolucionActual;
 	private final int LIMITE_SOLUCIONES = 2;
+	private double TiempoResolucion;
 
 	// ---------------- CONSTRUCTOR ----------------
 	public Tablero() {
@@ -120,7 +121,7 @@ public class Tablero {
 	// ---------------- BACKTRACKING ----------------
 	public boolean resolverBacktrack() {
 		int[] pos = encontrarProximaCeldaVacia();
-
+		
 		// Caso base: si no hay mas celdas vacias entonces encontramos solucion
 		if (pos == null) {
 			// Guardo copia de la solucion que encontre
@@ -179,6 +180,14 @@ public class Tablero {
 			//    celda.setEsPrefijada(true);
 			notificarObservadores();
 		}
+	}
+	
+	public double getTiempoResolucion() {
+		return TiempoResolucion;
+	}
+	
+	public void setTiempoResolucion(double tiempo) {
+		TiempoResolucion= tiempo;
 	}
 
 	public void borrarValor(int fila, int columna) {
@@ -251,6 +260,7 @@ public class Tablero {
 		// Reiniciar la lista de soluciones
 		this._soluciones = null;
 		this._indiceSolucionActual = -1;
+		this.TiempoResolucion=0;
 		notificarOcultarNavegacion();
 		notificarObservadores();
 	}

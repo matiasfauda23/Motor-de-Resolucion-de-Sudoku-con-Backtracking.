@@ -17,11 +17,16 @@ public class Controlador {
     }
 
     public void resolverSudoku() {
+    	long inicio=System.currentTimeMillis();
         if (!tablero.esSoluble()) {
             return;
         }
         
         tablero.encontrarTodasLasSoluciones();
+        
+        long fin=System.currentTimeMillis();
+        double tiempo=(fin-inicio)/1000.0;        
+        tablero.setTiempoResolucion(tiempo);             
         
         int cantidad = tablero.getCantidadSoluciones(); 
         
