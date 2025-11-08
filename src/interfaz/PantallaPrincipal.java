@@ -112,23 +112,8 @@ public class PantallaPrincipal extends JFrame implements Observador {
 		_botonLimpiar.addActionListener(e -> _controlador.limpiarGrilla());
 		_botonSiguiente.addActionListener(e -> _controlador.mostrarSiguienteSolucion());
 		_botonAnterior.addActionListener(e -> _controlador.mostrarAnteriorSolucion());
-		_botonMultiplesSodokus.addActionListener(e -> {
-			
-			Tablero[] sodokus = new Tablero[2];
-			int n= 30; // numero de valores prefijos
-			for(int i=0;i<2;i++) {
-				Tablero nuevoTablero=new Tablero();
-				Controlador nuevoControlador=new Controlador(nuevoTablero);
-				
-				// el numero de valores prefijos tienen que ser distintos
-				nuevoTablero.llenarAleatoriamente(n-3); 
-				nuevoControlador.resolverSudoku();
-				
-				sodokus[i]=nuevoTablero;
-			}
-			
-			mostrarEstadisticas(sodokus);
-		});
+		_botonMultiplesSodokus.addActionListener(e -> {mostrarEstadisticas(_controlador.generarMultiplesSudokus(2, 15));
+				});			
 	}
 
 	private void mostrarEstadisticas(Tablero[] sodokus) {
@@ -141,8 +126,8 @@ public class PantallaPrincipal extends JFrame implements Observador {
 		    // 2. Crear el gráfico con los daros
 		    _grafico = ChartFactory.createBarChart(
 		            "Tiempo de ejecución",           // Título
-		            "cantPrefijas",                       // Etiqueta del eje X
-		            "Cantidad de tiempo",            // Etiqueta del eje Y
+		            "Sudokus",                    // Eje X
+		            "Tiempo (ms)",                // Eje Y - mejor descripción
 		            _datos,
 		            PlotOrientation.VERTICAL,
 		            true,

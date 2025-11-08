@@ -1,5 +1,7 @@
 package logica;
 
+import java.util.List;
+
 public class Controlador {
 
     private Tablero tablero;
@@ -51,6 +53,10 @@ public class Controlador {
 //		
 //		return sudokusGenerados;
 //	} 
+    public Tablero [] generarMultiplesSudokus(int cantidad, int numerosAColocar) {
+    	Tablero [] sudokusGenerados = tablero.generarMultiplesSudokus(cantidad, numerosAColocar);
+    	return sudokusGenerados;
+    }
  
     public void generarSudoku(int cantidad) {
         if (!tablero.tieneLugaresVacios()) {

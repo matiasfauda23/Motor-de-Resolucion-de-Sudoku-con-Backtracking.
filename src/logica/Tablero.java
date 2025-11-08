@@ -1,6 +1,7 @@
 package logica;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Tablero {
@@ -146,7 +147,26 @@ public class Tablero {
 		}
 		return false;
 	}
-
+	
+	// ------------------- generar multiples sudokus -------------------
+	
+	public Tablero[] generarMultiplesSudokus(int cantidad, int numerosAColocar) {
+	    Tablero[] sudokusGenerados = new Tablero[cantidad];
+	    for (int i = 0; i < cantidad; i++) {
+	        Tablero nuevoTablero = new Tablero();
+	        nuevoTablero.llenarAleatoriamente(numerosAColocar);
+	        	       
+	        long tiempoInicio = System.nanoTime();
+	        nuevoTablero.encontrarTodasLasSoluciones(); // ← Usar este método en lugar de resolverBacktrack()
+	        long tiempoFin = System.nanoTime();
+	        
+	        double tiempoEnMilisegundos = (tiempoFin - tiempoInicio) / 1_000_000.0;
+	        nuevoTablero.setTiempoResolucion(tiempoEnMilisegundos);
+	        
+	        sudokusGenerados[i] = nuevoTablero;
+	    }
+	    return sudokusGenerados;
+	}
 
 	// ---------------- BÚSQUEDA ----------------
 	private int[] encontrarProximaCeldaVacia() {
