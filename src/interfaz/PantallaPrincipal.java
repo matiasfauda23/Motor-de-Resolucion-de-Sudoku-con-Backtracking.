@@ -106,43 +106,95 @@ public class PantallaPrincipal extends JFrame implements Observador {
 		_botonResolver.addActionListener(e -> _controlador.resolverSudoku());
 		_botonGenerar.addActionListener(e -> {
 			int cantidad = (int) spinnerCeldas.getValue();
+			
 			_controlador.generarSudoku(cantidad);
 		});
+		_botonMultiplesSodokus.addActionListener(e ->solicitarYGenerarMultiplesSudokus());
 
 		_botonLimpiar.addActionListener(e -> _controlador.limpiarGrilla());
 		_botonSiguiente.addActionListener(e -> _controlador.mostrarSiguienteSolucion());
-		_botonAnterior.addActionListener(e -> _controlador.mostrarAnteriorSolucion());
-		_botonMultiplesSodokus.addActionListener(e -> {mostrarEstadisticas(_controlador.generarMultiplesSudokus(2, 15));
-				});			
+		_botonAnterior.addActionListener(e -> _controlador.mostrarAnteriorSolucion());			
+	}
+	
+	public void solicitarYGenerarMultiplesSudokus(){
+		
+	    String inputCantidad = JOptionPane.showInputDialog(
+	        this,
+	        "¿Cuántos sudokus desea generar?(2-20)",
+	        "Generar Sudokus",
+	        JOptionPane.QUESTION_MESSAGE
+	    );
+	    
+	    if (inputCantidad != null) {
+	        try {
+	            int cantidad = Integer.parseInt(inputCantidad);
+	            
+	            String inputPrefijadas = JOptionPane.showInputDialog(
+	                this,
+	                "¿Cuántas celdas prefijadas? (30-81)",
+	                "Celdas Prefijadas",
+	                JOptionPane.QUESTION_MESSAGE
+	            );
+	            
+	            if (inputPrefijadas != null) {
+	                int numerosAColocar = Integer.parseInt(inputPrefijadas);
+	                
+	                // Llama al controlador 	               
+	                mostrarEstadisticas(_controlador.generarMultiplesSudokus(cantidad, numerosAColocar), numerosAColocar);
+	            }
+	            
+	        } catch (NumberFormatException ex) {
+	            JOptionPane.showMessageDialog(
+	                this, 
+	                "Por favor ingrese un número válido", 
+	                "Error", 
+	                JOptionPane.ERROR_MESSAGE
+	            );
+	        } catch (IllegalArgumentException ex) {
+	            JOptionPane.showMessageDialog(
+	                this, 
+	                ex.getMessage(), 
+	                "Error", 
+	                JOptionPane.ERROR_MESSAGE
+	            );
+	        }
+	    }	    			
 	}
 
-	private void mostrarEstadisticas(Tablero[] sodokus) {
-		 _datos = new DefaultCategoryDataset();
-		 
-		    // esto debe pasar a ser un for que recorra todos los sodokus generados
-		    _datos.addValue(sodokus[0].getTiempoResolucion(), "Sodoku1", "Sodokus");
-		    _datos.addValue(sodokus[1].getTiempoResolucion(), "Sodoku2", "Sodokus");
+	private void mostrarEstadisticas(Tablero[] sudokus, int cantidadPrefijadas) {
 
-		    // 2. Crear el gráfico con los daros
-		    _grafico = ChartFactory.createBarChart(
-		            "Tiempo de ejecución",           // Título
-		            "Sudokus",                    // Eje X
-		            "Tiempo (ms)",                // Eje Y - mejor descripción
-		            _datos,
-		            PlotOrientation.VERTICAL,
-		            true,
-		            false,
-		            false
-		    );
+	    _datos = new DefaultCategoryDataset();
+	    for (int i = 0; i < sudokus.length; i++) {
+	        String categoria = String.valueOf(cantidadPrefijadas);
+	        _datos.addValue(
+	            sudokus[i].getTiempoResolucion(), 
+	            "Sudoku " + (i + 1), 
+	            categoria
+	        );
+	        if(cantidadPrefijadas -3 >= 0) {
+	        	cantidadPrefijadas-=3;
+	        }
+	    }
 
-		    //crear el panel con el gráfico que tiene datos
-		    ChartPanel panel = new ChartPanel(_grafico);
-		   		    
-		    //Crear y mostrar la ventana
-		    JFrame ventana = new JFrame("Gráfico de Sodokus - tiempo de ejecución");
-		    ventana.getContentPane().add(panel);
-		    ventana.pack();
-		    ventana.setVisible(true);
+	    _grafico = ChartFactory.createBarChart(
+	        "Tiempo de ejecución para encontrar todas las soluciones de " + sudokus.length + " sudokus",
+	        "Celdas prefijadas",
+	        "Tiempo (ms)",
+	        _datos,
+	        PlotOrientation.VERTICAL,
+	        true,
+	        true,
+	        false
+	    );
+
+	    ChartPanel panel = new ChartPanel(_grafico);
+
+	    JFrame ventana = new JFrame("Gráfico de Sudokus - Tiempo de ejecución");
+	    ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    ventana.getContentPane().add(panel);
+	    ventana.setSize(1000, 600); 
+	    ventana.setLocationRelativeTo(null);
+	    ventana.setVisible(true);
 	}
 
 	private void inicializarCamposDeTexto() {

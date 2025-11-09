@@ -43,20 +43,9 @@ public class Controlador {
         }
     }
 
-//    public List<Tablero> generarMultiplesSudokus(int cantidad, int numerosAColocar) {
-//		List<Tablero> sudokusGenerados = new List<Tablero>();
-//		for (int i = 0; i < cantidad; i++) {
-//			Tablero Tablero = new Tablero();
-//			Tablero.llenarAleatoriamente(numerosAColocar);
-//			Tablero.encontrarTodasLasSoluciones();
-//		}
-//		
-//		return sudokusGenerados;
-//	} 
-    public Tablero [] generarMultiplesSudokus(int cantidad, int numerosAColocar) {
-    	Tablero [] sudokusGenerados = tablero.generarMultiplesSudokus(cantidad, numerosAColocar);
-    	return sudokusGenerados;
-    }
+    public Tablero [] generarMultiplesSudokus(int cantidad, int numerosAColocar) {            
+        return tablero.generarMultiplesSudokus(cantidad, numerosAColocar);
+        }
  
     public void generarSudoku(int cantidad) {
         if (!tablero.tieneLugaresVacios()) {

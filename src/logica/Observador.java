@@ -12,4 +12,5 @@ public interface Observador {
 	void mostrarNavegacion(int indiceActual, int totalSoluciones);
 	
 	void ocultarNavegacion();
+	
 }

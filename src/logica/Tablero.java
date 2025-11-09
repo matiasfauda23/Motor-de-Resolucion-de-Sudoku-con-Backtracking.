@@ -151,13 +151,26 @@ public class Tablero {
 	// ------------------- generar multiples sudokus -------------------
 	
 	public Tablero[] generarMultiplesSudokus(int cantidad, int numerosAColocar) {
+	    if (cantidad < 2 || cantidad > 20) {
+	        throw new IllegalArgumentException("La cantidad debe estar entre 2 y 20");
+	    }
+
+	    if (numerosAColocar < 30 || numerosAColocar > 81) {
+	        throw new IllegalArgumentException("Las celdas prefijadas deben estar entre 30 y 81");
+	    }
+		
 	    Tablero[] sudokusGenerados = new Tablero[cantidad];
-	    for (int i = 0; i < cantidad; i++) {
+	    int cantPrefijas = numerosAColocar;
+	    
+	    for (int i = 0; i < cantidad; i++) {	        
+	        if(cantPrefijas > 0) {
+	        	cantPrefijas -= 3;// n-3 para asegurar variedad en las prefijadas
+	        }
 	        Tablero nuevoTablero = new Tablero();
-	        nuevoTablero.llenarAleatoriamente(numerosAColocar);
-	        	       
+	        nuevoTablero.llenarAleatoriamente(cantPrefijas); 
+	        	        
 	        long tiempoInicio = System.nanoTime();
-	        nuevoTablero.encontrarTodasLasSoluciones(); // ← Usar este método en lugar de resolverBacktrack()
+	        nuevoTablero.encontrarTodasLasSoluciones(); 
 	        long tiempoFin = System.nanoTime();
 	        
 	        double tiempoEnMilisegundos = (tiempoFin - tiempoInicio) / 1_000_000.0;
