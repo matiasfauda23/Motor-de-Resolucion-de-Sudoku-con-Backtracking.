@@ -1,6 +1,5 @@
 package interfaz;
 
-import java.awt.Dimension;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -39,7 +38,6 @@ public class PantallaPrincipal extends JFrame implements Observador {
 	private JButton _botonSiguiente;
 	private JLabel _labelContador;
 	
-
 	private Controlador _controlador;
 	private Tablero _tablero;
 	
@@ -50,9 +48,22 @@ public class PantallaPrincipal extends JFrame implements Observador {
 		_tablero = tablero;
 		_controlador = controlador;
 
+		inicializarInterfaz();
+		
+		// Vinculamos eventos a controlador
+		configurarEventos();
+		ocultarNavegacion();
+
+		this.pack();
+		this.setLocationRelativeTo(null);
+		
+	}
+	
+	private void inicializarInterfaz() {
 		// La vista se suscribe al modelo
 		_tablero.agregarObservador(this);
-
+			
+		setTitle("Sudoku Solver"); // boraa esta
 		setTitle("Sudoku");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane = new JPanel();              
@@ -72,6 +83,11 @@ public class PantallaPrincipal extends JFrame implements Observador {
 		_botonGenerar = new JButton("Generar Aleatorio");
 		_botonLimpiar = new JButton("Limpiar");
 		_botonMultiplesSodokus = new JButton("Generar Múltiples Sudokus");
+		
+		mejorarBoton(_botonResolver);
+		mejorarBoton(_botonGenerar);
+		mejorarBoton(_botonLimpiar);
+		mejorarBoton(_botonMultiplesSodokus);
 
 		panelBotones.add(_botonResolver);
 		panelBotones.add(_botonGenerar);
@@ -93,13 +109,18 @@ public class PantallaPrincipal extends JFrame implements Observador {
 		panelBotones.add(_botonAnterior);
 		panelBotones.add(_labelContador);
 		panelBotones.add(_botonSiguiente);
+		
+	}
 
-		// Vinculamos eventos a controlador
-		configurarEventos();
-		ocultarNavegacion();
-
-		this.pack();
-		this.setLocationRelativeTo(null);
+	private void mejorarBoton(JButton boton) {
+	    boton.setFont(new Font("Segoe UI", Font.ROMAN_BASELINE, 14));
+	    boton.setBackground(new Color(59, 89, 182)); // Azul
+	    boton.setForeground(Color.WHITE);
+	    boton.setFocusPainted(false); // Quita el borde de foco
+	    boton.setBorderPainted(false); // Quita el borde
+	    boton.setOpaque(true);
+	    boton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Cursor de mano
+	    boton.setPreferredSize(new Dimension(210, 30));
 	}
 
 	private void configurarEventos() {
@@ -204,12 +225,32 @@ public class PantallaPrincipal extends JFrame implements Observador {
 				JTextField campo = new JTextField();
 				campo.setHorizontalAlignment(SwingConstants.CENTER);
 				campo.setFont(new Font("Arial", Font.BOLD, 20));
-				campo.setColumns(1);
+				campo.setColumns(1);																
+				
+				// Colores alternados
+	            if (((f / 3) + (c / 3)) % 2 == 0) {
+	                campo.setBackground(new Color(255, 255, 255));
+	            } else {
+	                campo.setBackground(new Color(230, 240, 255));
+	            }
+	            
+	            campo.setForeground(new Color(0, 0, 128)); // Azul oscuro
+	            
+	            // Bordes gruesos para separar subcuadrículas
+	            int sup = (f % 3 == 0) ? 3 : 1; //arriba
+	            int izq = (c % 3 == 0) ? 3 : 1; //izquierda
+	            int inf = (f == 8) ? 3 : 1;	    //abajo
+	            int der = (c == 8) ? 3 : 1;     //derecha
+	            
+	            campo.setBorder(BorderFactory.createMatteBorder(
+	                sup, izq, inf, der, Color.BLACK
+	            ));
 
 				// Limitar entrada y notificar al controlador
 				configurarCampo(campo, f, c);
 
 				grillaCampos[f][c] = campo;
+			
 				_panelGrilla.add(campo);
 			}
 		}
@@ -222,7 +263,7 @@ public class PantallaPrincipal extends JFrame implements Observador {
 			public void keyTyped(KeyEvent e) {
 				char ch = e.getKeyChar();
 
-				// Solo permitir dígitos del 1 al 9 y una cifra por celda
+				// Solo permite dígitos del 1 al 9 y una cifra por celda
 				if (!Character.isDigit(ch) || ch == '0' || campo.getText().length() >= 1) {
 					e.consume();
 				}
@@ -238,7 +279,7 @@ public class PantallaPrincipal extends JFrame implements Observador {
 
 				String texto = campo.getText().trim();
 				int valor = 0;
-
+				
 				if (!texto.isEmpty()) {
 					try {
 						valor = Integer.parseInt(texto);
@@ -257,6 +298,7 @@ public class PantallaPrincipal extends JFrame implements Observador {
 			}
 		});
 	}
+	
 
 	@Override
 	public void actualizar() {
@@ -266,7 +308,7 @@ public class PantallaPrincipal extends JFrame implements Observador {
 				int val = datos[f][c];
 				String texto = val == 0 ? "" : String.valueOf(val);
 				if (!grillaCampos[f][c].getText().equals(texto)) {
-					grillaCampos[f][c].setText(texto);
+					grillaCampos[f][c].setText(texto);					
 				}
 			}
 		}

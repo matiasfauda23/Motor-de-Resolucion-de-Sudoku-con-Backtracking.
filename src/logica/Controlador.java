@@ -1,7 +1,5 @@
 package logica;
 
-import java.util.List;
-
 public class Controlador {
 
     private Tablero tablero;
@@ -73,7 +71,7 @@ public class Controlador {
             tablero.notificarConteoSoluciones();
         }
     }
-
+    
     public int getIndiceSolucionActual() {
         return tablero.getIndiceSolucionActual();
     }
