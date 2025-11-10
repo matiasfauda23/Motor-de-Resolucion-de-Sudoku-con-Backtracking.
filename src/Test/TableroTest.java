@@ -28,7 +28,7 @@ public class TableroTest {
 		    };
 		Tablero tablero = new Tablero();
 		tablero.cargarDesdeMatriz(problema);
-		boolean tieneSolucion = tablero.resolverBacktrack();
+		boolean tieneSolucion = tablero.esSoluble();
 		assertTrue(tieneSolucion);
 	}
 	
@@ -36,7 +36,7 @@ public class TableroTest {
 	public void testResolverTableroAleatorio() {
 		Tablero tablero = new Tablero();
 		tablero.llenarAleatoriamente(20); 
-		boolean tieneSolucion = tablero.resolverBacktrack();
+		boolean tieneSolucion = tablero.esSoluble();
 		assertTrue(tieneSolucion);
 	}
 	
@@ -71,7 +71,7 @@ public class TableroTest {
 		    };
 		Tablero tablero = new Tablero();
 		tablero.cargarDesdeMatriz(problema);
-		boolean tieneSolucion = tablero.resolverBacktrack();
+		boolean tieneSolucion = tablero.esSoluble();
 		assertTrue(tieneSolucion);
 		//Verifico que la solucion sea correcta
 		for (int f = 0; f < 9; f++) {
@@ -80,7 +80,7 @@ public class TableroTest {
 	            assertEquals(mensajeError, solucion[f][c], tablero.getValor(f, c));
 	        }
 	    }
-		}
+	}
 	
 	@Test
 	public void testResolverFallaEnSudokuImposible() {
@@ -128,5 +128,27 @@ public class TableroTest {
 		    assertEquals("El valor del usuario (0,2) debe borrarse", 
 		                 0, tablero.getValor(0, 2));
 		}
+		
+		@Test
+	    public void generarMultiplesSudokusTest() {
+	        Tablero tablero = new Tablero();
+	        int cantidad = 5;
+	        int numerosAColocar = 40;
+	        Tablero[] sudokus = tablero.generarMultiplesSudokus(cantidad, numerosAColocar);
+	        
+	        assertEquals(cantidad, sudokus.length);
+	        
+	        for (Tablero sudoku : sudokus) {
+	            int prefijadasContador = 0;
+	            for (int fila = 0; fila < 9; fila++) {
+	                for (int col = 0; col < 9; col++) {
+	                    if (sudoku.getCelda(fila, col).getEsPrefijada()) {
+	                        prefijadasContador++;
+	                    }
+	                }
+	            }
+	            assertEquals(numerosAColocar, prefijadasContador);
+	        }
+	    }
 	
 	}

@@ -142,7 +142,7 @@ public class PantallaPrincipal extends JFrame implements Observador {
 	    String inputCantidad = JOptionPane.showInputDialog(
 	        this,
 	        "¿Cuántos sudokus desea generar?(2-20)",
-	        "Generar Sudokus",
+	        "Generar Sudokus Aleatorios",
 	        JOptionPane.QUESTION_MESSAGE
 	    );
 	    
@@ -227,24 +227,9 @@ public class PantallaPrincipal extends JFrame implements Observador {
 				campo.setFont(new Font("Arial", Font.BOLD, 20));
 				campo.setColumns(1);																
 				
-				// Colores alternados
-	            if (((f / 3) + (c / 3)) % 2 == 0) {
-	                campo.setBackground(new Color(255, 255, 255));
-	            } else {
-	                campo.setBackground(new Color(230, 240, 255));
-	            }
-	            
-	            campo.setForeground(new Color(0, 0, 128)); // Azul oscuro
-	            
-	            // Bordes gruesos para separar subcuadrículas
-	            int sup = (f % 3 == 0) ? 3 : 1; //arriba
-	            int izq = (c % 3 == 0) ? 3 : 1; //izquierda
-	            int inf = (f == 8) ? 3 : 1;	    //abajo
-	            int der = (c == 8) ? 3 : 1;     //derecha
-	            
-	            campo.setBorder(BorderFactory.createMatteBorder(
-	                sup, izq, inf, der, Color.BLACK
-	            ));
+				campo.setBackground(_controlador.obtenerColorDeFondo(f, c));
+                campo.setBorder(_controlador.crearBordeCelda(f, c));
+                campo.setForeground(new Color(0, 0, 128));
 
 				// Limitar entrada y notificar al controlador
 				configurarCampo(campo, f, c);

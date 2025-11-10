@@ -1,5 +1,9 @@
 package logica;
 
+import java.awt.Color;
+
+import javax.swing.border.Border;
+
 public class Controlador {
 
     private Tablero tablero;
@@ -79,5 +83,15 @@ public class Controlador {
 	public int lugaresLibres() {
 		return tablero.lugaresLibres();
 	}
+	
+	public Border crearBordeCelda(int fila, int col) {
+	return tablero.crearBordeCelda(fila, col);	
+	}
+		
+	public Color obtenerColorDeFondo(int fila, int col) {
+        return (((fila / 3) + (col / 3)) % 2 == 0)
+                ? Color.WHITE
+                : new Color(230, 240, 255);
+    }
 		
 }

@@ -1,8 +1,12 @@
 package logica;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
 
 public class Tablero {
 	private Celda[][] celdas;
@@ -336,5 +340,15 @@ public class Tablero {
 		}
 		return false;
 	}
+	
+	// ---------------- Calcular ESTÉTICA ----------------
+	public Border crearBordeCelda(int fila, int col) {
+        int sup = (fila % 3 == 0) ? 3 : 1;
+        int izq = (col % 3 == 0) ? 3 : 1;
+        int inf = (fila == 8) ? 3 : 1;
+        int der = (col == 8) ? 3 : 1;
+
+        return BorderFactory.createMatteBorder(sup, izq, inf, der, Color.BLACK);
+    }
 
 }
