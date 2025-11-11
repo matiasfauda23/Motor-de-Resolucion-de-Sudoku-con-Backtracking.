@@ -50,7 +50,7 @@ public class Controlador {
         }
  
     public void generarSudoku(int cantidad) {
-        if (!tablero.tieneLugaresVacios()) {
+        if (!tablero.tieneLugaresVacios(cantidad)) {
             return;
         }
         tablero.llenarAleatoriamente(cantidad);

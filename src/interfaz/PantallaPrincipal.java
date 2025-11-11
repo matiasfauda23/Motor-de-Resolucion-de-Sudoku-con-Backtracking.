@@ -192,9 +192,7 @@ public class PantallaPrincipal extends JFrame implements Observador {
 	            "Sudoku " + (i + 1), 
 	            categoria
 	        );
-	        if(cantidadPrefijadas -3 >= 0) {
-	        	cantidadPrefijadas-=3;
-	        }
+
 	    }
 
 	    _grafico = ChartFactory.createBarChart(
@@ -313,7 +311,7 @@ public class PantallaPrincipal extends JFrame implements Observador {
 	public void noEsposibleRellenar() {
 		javax.swing.JOptionPane.showMessageDialog(
 				null,
-				"El tablero ya está lleno. Limpie la grilla para generar uno nuevo.",
+				"El tablero ya está lleno o no es posible llenarlo. Limpie la grilla para generar uno nuevo.",
 				"Sudoku",
 				javax.swing.JOptionPane.WARNING_MESSAGE
 				);

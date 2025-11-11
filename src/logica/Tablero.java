@@ -166,9 +166,7 @@ public class Tablero {
 	    int cantPrefijas = numerosAColocar;
 	    
 	    for (int i = 0; i < cantidad; i++) {	        
-	        if(cantPrefijas > 0) {
-	        	cantPrefijas -= 3;// n-3 para asegurar variedad en las prefijadas
-	        }
+
 	        Tablero nuevoTablero = new Tablero();
 	        nuevoTablero.llenarAleatoriamente(cantPrefijas); 
 	        	        
@@ -213,7 +211,6 @@ public class Tablero {
 		Celda celda = celdas[fila][col];
 		if (!celda.getEsPrefijada()) {
 			celda.setValor(valor);
-		//	celda.setEsPrefijada(true);
 			notificarObservadores();
 		}
 	}
@@ -324,8 +321,8 @@ public class Tablero {
 		return lugareslibres;
 	}
 
-	public boolean tieneLugaresVacios() {
-		if (this.lugaresLibres() == 0) {
+	public boolean tieneLugaresVacios(int cantidad) {
+		if (this.lugaresLibres() == 0 || lugaresLibres() < cantidad) {
 			noEsPosibleRellenar();;
 			return false;
 		}

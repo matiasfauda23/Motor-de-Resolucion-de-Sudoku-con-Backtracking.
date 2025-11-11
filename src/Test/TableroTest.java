@@ -101,7 +101,6 @@ public class TableroTest {
 	    Tablero tablero = new Tablero();
 	    tablero.cargarDesdeMatriz(problemaImposible);
 	    boolean tieneSolucion = tablero.resolverBacktrack();
-	    System.out.println(tieneSolucion);
 	    assertFalse(tieneSolucion);
 	}
 	
@@ -131,14 +130,14 @@ public class TableroTest {
 		                 0, tablero.getValor(0, 2));
 		}
 		
-	/*	
+
 		@Test
 		public void generarMultiplesSudokusTest() {
 		    Tablero tablero = new Tablero();
 		    int cantidad = 5;
-		    int numerosAColocar = 20;
+		    int numerosAColocar = 30;
 		    Tablero[] sudokus = tablero.generarMultiplesSudokus(cantidad, numerosAColocar);
-		    
+
 		    assertEquals(cantidad, sudokus.length);
 		    for (Tablero sudoku : sudokus) {
 		        int numerosContador = 0; 
@@ -151,6 +150,6 @@ public class TableroTest {
 		        }
 		        assertEquals(numerosAColocar, numerosContador);
 		    }
-		}*/
+		}
 	
 	}
