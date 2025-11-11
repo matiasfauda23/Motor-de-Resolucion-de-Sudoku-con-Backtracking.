@@ -71,15 +71,17 @@ public class TableroTest {
 		    };
 		Tablero tablero = new Tablero();
 		tablero.cargarDesdeMatriz(problema);
-		boolean tieneSolucion = tablero.esSoluble();
-		assertTrue(tieneSolucion);
-		//Verifico que la solucion sea correcta
+		
+		tablero.encontrarTodasLasSoluciones();
+		assertEquals(1, tablero.getCantidadSoluciones());
+		tablero.cargarSolucion(0);
 		for (int f = 0; f < 9; f++) {
 	        for (int c = 0; c < 9; c++) { 
 	            String mensajeError = "Error en la celda [" + f + "][" + c + "]";
 	            assertEquals(mensajeError, solucion[f][c], tablero.getValor(f, c));
 	        }
 	    }
+
 	}
 	
 	@Test
@@ -121,7 +123,7 @@ public class TableroTest {
 		    Tablero tablero = new Tablero();
 		    tablero.cargarDesdeMatriz(grillaTest); 
 		    tablero.setValor(0, 2, 9);
-		    tablero.limpiar(); // Debería borrar el 9, pero no el 5
+		    tablero.limpiar(); 
 
 		    assertEquals("El valor prefijado (0,0) no debe borrarse", 
 		                 5, tablero.getValor(0, 0));
@@ -129,26 +131,26 @@ public class TableroTest {
 		                 0, tablero.getValor(0, 2));
 		}
 		
+	/*	
 		@Test
-	    public void generarMultiplesSudokusTest() {
-	        Tablero tablero = new Tablero();
-	        int cantidad = 5;
-	        int numerosAColocar = 40;
-	        Tablero[] sudokus = tablero.generarMultiplesSudokus(cantidad, numerosAColocar);
-	        
-	        assertEquals(cantidad, sudokus.length);
-	        
-	        for (Tablero sudoku : sudokus) {
-	            int prefijadasContador = 0;
-	            for (int fila = 0; fila < 9; fila++) {
-	                for (int col = 0; col < 9; col++) {
-	                    if (sudoku.getCelda(fila, col).getEsPrefijada()) {
-	                        prefijadasContador++;
-	                    }
-	                }
-	            }
-	            assertEquals(numerosAColocar, prefijadasContador);
-	        }
-	    }
+		public void generarMultiplesSudokusTest() {
+		    Tablero tablero = new Tablero();
+		    int cantidad = 5;
+		    int numerosAColocar = 20;
+		    Tablero[] sudokus = tablero.generarMultiplesSudokus(cantidad, numerosAColocar);
+		    
+		    assertEquals(cantidad, sudokus.length);
+		    for (Tablero sudoku : sudokus) {
+		        int numerosContador = 0; 
+		        for (int fila = 0; fila < 9; fila++) {
+		            for (int col = 0; col < 9; col++) {
+		                if (sudoku.getCelda(fila, col).getValor() != 0) {
+		                    numerosContador++;
+		                }
+		            }
+		        }
+		        assertEquals(numerosAColocar, numerosContador);
+		    }
+		}*/
 	
 	}

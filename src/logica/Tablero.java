@@ -2,7 +2,6 @@ package logica;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import javax.swing.BorderFactory;
@@ -18,14 +17,14 @@ public class Tablero {
 	private final int LIMITE_SOLUCIONES = 2;
 	private double TiempoResolucion;
 
-	// ---------------- CONSTRUCTOR ----------------
+	//Constructor
 	public Tablero() {
 		this.celdas = new Celda[9][9];
 		inicializarEstructurasVacias();
 	}
 
 
-	// ---------------- INICIALIZACIÓN ----------------
+	//Inicializacion de la grilla
 	private void inicializarEstructurasVacias() {
 		for (int fila = 0; fila < 9; fila++) {
 			for (int col = 0; col < 9; col++) {
@@ -35,7 +34,7 @@ public class Tablero {
 	}
 
 
-	// ---------------- OBSERVER ----------------
+	//Observer
 	public void agregarObservador(Observador o) {
 		observadores.add(o);
 	}
@@ -77,7 +76,7 @@ public class Tablero {
 	}
 
 
-	// ---------------- CARGA MANUAL ----------------
+	//Cargar desde matriz
 	public void cargarDesdeMatriz(int[][] matriz) {
 		if (matriz == null || matriz.length != 9)
 			throw new IllegalArgumentException("La matriz debe tener 9 filas.");
@@ -100,7 +99,7 @@ public class Tablero {
 	}
 
 
-	// ---------------- LLENADO ALEATORIO ----------------
+	//Llenar celdas aleatoriamente
 	public void llenarAleatoriamente(int cantidadInicial) {
 		Random random = new Random();
 		int colocados = 0;
@@ -123,7 +122,7 @@ public class Tablero {
 	}
 
 
-	// ---------------- BACKTRACKING ----------------
+	// Algoritmo de Backtracking para resolver el Sudoku
 	public boolean resolverBacktrack() {
 		int[] pos = encontrarProximaCeldaVacia();
 		
@@ -152,7 +151,7 @@ public class Tablero {
 		return false;
 	}
 	
-	// ------------------- generar multiples sudokus -------------------
+	//Multiples Sudokus
 	
 	public Tablero[] generarMultiplesSudokus(int cantidad, int numerosAColocar) {
 	    if (cantidad < 2 || cantidad > 20) {
@@ -185,7 +184,7 @@ public class Tablero {
 	    return sudokusGenerados;
 	}
 
-	// ---------------- BÚSQUEDA ----------------
+	//Busqueda de celdas vacias
 	private int[] encontrarProximaCeldaVacia() {
 		for (int fila = 0; fila < 9; fila++) {
 			for (int col = 0; col < 9; col++) {
@@ -203,7 +202,7 @@ public class Tablero {
 		resolverBacktrack(); // Llama al método (que ahora se auto-limita)
 	}
 
-	// ---------------- ACCESORES ----------------
+	//Getters y Setters
 	public int getValor(int fila, int col) {
 		validarCoordenadas(fila, col);
 		return celdas[fila][col].getValor();
@@ -214,7 +213,7 @@ public class Tablero {
 		Celda celda = celdas[fila][col];
 		if (!celda.getEsPrefijada()) {
 			celda.setValor(valor);
-			celda.setEsPrefijada(true);
+		//	celda.setEsPrefijada(true);
 			notificarObservadores();
 		}
 	}
@@ -269,7 +268,7 @@ public class Tablero {
 	}
 
 
-	// ---------------- VALIDACIONES ----------------
+	//Validaciones
 	private void validarCoordenadas(int fila, int col) {
 		if (fila < 0 || fila > 8 || col < 0 || col > 8)
 			throw new IllegalArgumentException("Fila y columna deben estar entre 0 y 8.");
@@ -284,7 +283,7 @@ public class Tablero {
 	}
 
 
-	// ---------------- FUNCIONES AUXILIARES ----------------
+	//Funciones auxiliares
 	public void limpiar() {
 		for (int fila = 0; fila < 9; fila++) {
 			for (int col = 0; col < 9; col++) {
@@ -341,7 +340,7 @@ public class Tablero {
 		return false;
 	}
 	
-	// ---------------- Calcular ESTÉTICA ----------------
+	//Bordes de las celdas
 	public Border crearBordeCelda(int fila, int col) {
         int sup = (fila % 3 == 0) ? 3 : 1;
         int izq = (col % 3 == 0) ? 3 : 1;
