@@ -16,10 +16,10 @@ Aplicación de escritorio de alto rendimiento para la resolución, generación y
 - **Librerías:** JFreeChart (Visualización de datos estadísticos).
 
 ## Capturas:
-![Tablero Principal](screenshots/sudoku_main.png)
+![Tablero Principal](screenshots/PantallaPrincipalSudoku.png)
 *Interfaz limpia con validación visual de celdas fijas vs. editables.*
 
-![Análisis de Tiempos](screenshots/benchmark_chart.png)
+![Análisis de Tiempos](screenshots/TiempoEjecucionAlgoritmos.png)
 *Gráfico generado por JFreeChart comparando la eficiencia del algoritmo en múltiples tableros.*
 
 ## Estructura del Proyecto:
