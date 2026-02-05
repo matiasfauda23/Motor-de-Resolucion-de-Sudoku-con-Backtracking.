@@ -19,6 +19,9 @@ Aplicación de escritorio de alto rendimiento para la resolución, generación y
 ![Tablero Principal](screenshots/PantallaPrincipalSudoku.png)
 *Interfaz limpia con validación visual de celdas fijas vs. editables.*
 
+![Generador aleatorio](screenshots/GeneradorAleatorioSudoku.png)
+*Interfaz con grilla completa a traves de Backtracking.*
+
 ![Análisis de Tiempos](screenshots/TiempoEjecucionAlgoritmos.png)
 *Gráfico generado por JFreeChart comparando la eficiencia del algoritmo en múltiples tableros.*
 
